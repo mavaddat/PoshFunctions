@@ -44,8 +44,6 @@ function Get-LongName {
     [string[]]
 #>
 
-    # todo - fix logic for LiteralPath and Path
-
     [CmdletBinding(ConfirmImpact = 'None', DefaultParameterSetName = 'Path')]
     param(
         [Parameter(ParameterSetName = 'Path', ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -56,7 +54,7 @@ function Get-LongName {
                 if ($_ -notmatch '[\?\*]') {
                     $true
                 } else {
-                    throw 'Wildcard characters *, ? are not acceptable with -LiteralPath'
+                    throw 'ERROR: Wildcard characters *, ? are not acceptable with -LiteralPath'
                 }
             })]
         [string[]] $LiteralPath,
@@ -131,16 +129,12 @@ function Get-LongName {
                                 Write-Error -Message 'Only works against filesystem objects'
                             }
                         }
-
                     } else {
                         Write-Error -Message "ERROR: File [$curPath] does not exist"
                     }
                 }
-
-
             }
         }
-
     }
 
     end {

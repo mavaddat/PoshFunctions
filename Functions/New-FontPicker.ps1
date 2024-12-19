@@ -44,7 +44,7 @@ function New-FontPicker {
         $FontPicker.Text = 'Font Picker'
         $FontPicker.AutoSize = $true
         $FontPicker.AutoSizeMode = 'GrowOnly'
-        $FontPicker.Icon = (Join-Path -Path $Script:ModulePath -ChildPath 'Resources\PoshFunctions.ico')
+        $FontPicker.Icon = $Script:IconFile
         #~~< OKButton >~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         $OKButton = New-Object -TypeName System.Windows.Forms.Button
         $OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
@@ -150,7 +150,7 @@ function New-FontPicker {
             [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
             param
             (
-                $object
+                [object] $object
             )
             $FontResult = $FontDialog.ShowDialog()
             if ($FontResult -eq 'OK') {
@@ -166,7 +166,7 @@ function New-FontPicker {
             [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
             param
             (
-                $object
+                [object] $object
             )
             $NameText.Text = $FontDialog.Font.Name
             $SizeText.Text = $FontDialog.Font.Size

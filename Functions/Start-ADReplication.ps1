@@ -6,10 +6,10 @@ function Start-ADReplication {
     Forces replication to occur between domain controllers in domain. Invoke-Command to a DC. Requires to be running in elevated Powershell prompt.
 .PARAMETER Name
     A string array containing the name, fqdn or ipaddress of a domain controller. If not specified will query AD for a domain controller. Aliased to 'DomainController', 'DC', 'CN', 'ComputerName'
-.EXAMPLE
-    Start-ADReplication
 
-    Will issue a call to Get-ADDomainController and run the replication against that one DC
+    Optional, defaults to $env:COMPUTERNAME
+.PARAMETER Quiet
+    Switch will create no output
 .EXAMPLE
     Get-ADDomainController -Filter * | Start-ADReplication
 
@@ -41,7 +41,10 @@ function Start-ADReplication {
     * Changed output so that it creates CSV output
     * Added '-ThrottleLimit' to the Invoke-Command so as to not saturate the local computer. Changed value to
       [environment]::ProcessorCount which is the number of processors on the computer.
+    * Changed $Name to optional and defaulting to $env:COMPUTERNAME
 #>
+
+    # todo - add -Credential
 
     #region parameter
     [CmdletBinding(ConfirmImpact = 'Medium')]
@@ -50,9 +53,11 @@ function Start-ADReplication {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     Param
     (
-        [parameter(Mandatory, HelpMessage = 'Please enter the name of a domain controller', ValueFromPipelineByPropertyName)]
+        [parameter(ValueFromPipelineByPropertyName)]
         [Alias('DomainController', 'DC', 'CN', 'ComputerName')]
-        [string[]] $Name
+        [string[]] $Name = $env:COMPUTERNAME,
+
+        [switch] $Quiet
     )
     #endregion parameter
 
@@ -62,20 +67,27 @@ function Start-ADReplication {
             Write-Verbose -Message "`$Name is [$($Name -join ', ')]"
         }
         [int] $ThrottleLimit = [environment]::ProcessorCount
-        "`"DestinationDSA`",`"SourceDSA`",`"NamingContext`",`"Message`""
+        $ScriptBlock = {
+            $repl = repadmin.exe /showrepl /all /csv | ConvertFrom-Csv | Select-Object -Property 'Destination DSA', 'Source DSA', 'Naming Context'
+            $repl | ForEach-Object {
+                $msg = "`"$($_.'Destination DSA')`",`"$($_.'Source DSA')`",`"$($_.'Naming Context')`""
+                repadmin.exe /replicate $_.'Destination DSA' $_.'Source DSA' "$($_.'Naming Context')" |
+                    Where-Object { $_ -notmatch '^[\s]*$' } |
+                    ForEach-Object { "$msg,`"$_`"" }
+            }
+        }
+        if (-not $Quiet) {
+            Write-Output -InputObject "`"DestinationDSA`",`"SourceDSA`",`"NamingContext`",`"Message`""
+        }
     }
 
     process {
         foreach ($CurName in $Name) {
             Write-Verbose -Message "Processing [$CurName]"
-            Invoke-Command -ComputerName $CurName -ThrottleLimit $ThrottleLimit -ScriptBlock {
-                $repl = repadmin.exe /showrepl /all /csv | ConvertFrom-Csv | Select-Object -Property 'Destination DSA', 'Source DSA', 'Naming Context'
-                $repl | ForEach-Object {
-                    $msg = "`"$($_.'Destination DSA')`",`"$($_.'Source DSA')`",`"$($_.'Naming Context')`""
-                    repadmin.exe /replicate $_.'Destination DSA' $_.'Source DSA' "$($_.'Naming Context')" |
-                        Where-Object { $_ -notmatch '^[\s]*$' } |
-                        ForEach-Object { "$msg,`"$_`"" }
-                }
+            if ($Quiet) {
+                $null = Invoke-Command -ComputerName $CurName -ThrottleLimit $ThrottleLimit -ScriptBlock $ScriptBlock
+            } else {
+                Invoke-Command -ComputerName $CurName -ThrottleLimit $ThrottleLimit -ScriptBlock $ScriptBlock
             }
         }
     }

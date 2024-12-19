@@ -1,5 +1,5 @@
 function Get-SubnetMaskIPv4 {
-<#
+    <#
 .SYNOPSIS
     Gets a dotted decimal subnet mask given the number of bits in the mask
 .DESCRIPTION
@@ -35,14 +35,19 @@ function Get-SubnetMaskIPv4 {
     https://www.Google.com
 #>
 
-    [CmdletBinding()]
-    [alias('Get-SubnetMaskIP')]
+    [CmdletBinding(DefaultParameterSetName = 'Length')]
+    [alias('Get-SubnetMaskIP')] #FunctionAlias
     param(
-        [Parameter(ValueFromPipeline,Mandatory,HelpMessage='Enter the length of the subnet mask (1-32). Press ENTER with no other input to finish.')]
-        [Alias('NetworkLength','CIDR')]
-        [ValidateRange(1,32)]
+        [Parameter(ParameterSetName = 'Length', Mandatory, Position = 0, ValueFromPipeline, HelpMessage = 'Enter the length of the subnet mask (1-32). Press ENTER with no other input to finish.')]
+        [Alias('NetworkLength', 'CIDR')]
+        [ValidateRange(1, 32)]
         [int[]] $Length,
 
+        [Parameter(ParameterSetName = 'All')]
+        [switch] $All,
+
+        [Parameter(ParameterSetName = 'All')]
+        [Parameter(ParameterSetName = 'Length')]
         [Alias('IncludeCIDR')]
         [switch] $IncludeInput
     )
@@ -52,19 +57,25 @@ function Get-SubnetMaskIPv4 {
     }
 
     process {
-        foreach ($curLength in $Length) {
-            $MaskBinary = ('1' * $curLength).PadRight(32, '0')
-            $DottedMaskBinary = $MaskBinary -replace '(.{8}(?!\z))', '${1}.'
-            $SubnetMask = ($DottedMaskBinary.Split('.') | foreach-object { [Convert]::ToInt32($_, 2) }) -join '.'
-            if ($IncludeInput) {
-                New-Object -typename PsObject -Property ([ordered] @{
-                    Length = $curLength
-                    SubnetMask = $SubnetMask
-                })
-            } else {
-                Write-Output -InputObject $SubnetMask
+        if ($PSBoundParameters.ContainsKey('Length')) {
+            foreach ($curLength in $Length) {
+                $MaskBinary = ('1' * $curLength).PadRight(32, '0')
+                $DottedMaskBinary = $MaskBinary -replace '(.{8}(?!\z))', '${1}.'
+                $SubnetMask = ($DottedMaskBinary.Split('.') | ForEach-Object { [Convert]::ToInt32($_, 2) }) -join '.'
+                if ($IncludeInput) {
+                    New-Object -TypeName PsObject -Property ([ordered] @{
+                            SubnetMask = $SubnetMask
+                            Length     = $curLength
+                        })
+                } else {
+                    Write-Output -InputObject $SubnetMask
+                }
             }
         }
+        if ($PSBoundParameters.ContainsKey('All')) {
+            1..32 | Get-SubnetMaskIPv4 -IncludeInput
+        }
+
     }
 
     end {

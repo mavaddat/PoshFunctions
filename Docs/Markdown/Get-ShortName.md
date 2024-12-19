@@ -1,37 +1,52 @@
-﻿---
-external help file: PoshFunctions-help.xml
+---
+external help file: poshfunctions-help.xml
 Module Name: poshfunctions
-online version: https://social.msdn.microsoft.com/Forums/vstudio/en-US/0221d962-26e6-4a7e-be7a-72cd669a0dfc/why-systemmathround0251-2?forum=vbgeneral
-
-Talks about Visual Basic but the same info applies to Powershell.
+online version: 
 schema: 2.0.0
 ---
 
 # Get-ShortName
 
 ## SYNOPSIS
+
 To get the shortname 8.3 of a file or folder
 
 ## SYNTAX
 
+### Path
+
 ```
-Get-ShortName [-Path] <String[]> [-IncludeInput] [<CommonParameters>]
+Get-ShortName [[-Path <String[]>]] [-IncludeInput] [<CommonParameters>]
+```
+
+### LiteralPath
+
+```
+Get-ShortName [-IncludeInput] [-LiteralPath <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+
 To get the shortname 8.3 of a file or folder.
 If the path resolves to 2 or more objects the function will generate an error
 
+
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1: EXAMPLE 1
+
 ```
 Get-ShortName -Path 'C:\temp\This is a really long filename.txt'
 ```
 
 C:\temp\THISIS~1.TXT
 
-### EXAMPLE 2
+
+
+
+
+### Example 2: EXAMPLE 2
+
 ```
 Get-ShortName -Path c:\temp\th* -IncludeInput
 ```
@@ -40,14 +55,24 @@ LongName                                   ShortName            ItemType
 --------                                   ---------            --------
 C:\temp\This is a really long filename.txt C:\temp\THISIS~1.TXT File
 
-### EXAMPLE 3
+
+
+
+
+### Example 3: EXAMPLE 3
+
 ```
 Get-ShortName -Path c:\temp\Really-long-folder-name\
 ```
 
 C:\temp\REALLY~1
 
-### EXAMPLE 4
+
+
+
+
+### Example 4: EXAMPLE 4
+
 ```
 Get-ShortName -Path c:\temp\Really-long-folder-name\ -IncludeInput
 ```
@@ -56,47 +81,80 @@ LongName                         ShortName        ItemType
 --------                         ---------        --------
 C:\temp\Really-long-folder-name\ C:\temp\REALLY~1 Folder
 
+
+
+
+
+
 ## PARAMETERS
 
-### -Path
-A string or string array of files and folders
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
 ### -IncludeInput
+
 Switch to include the input parameters in the output
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
+Parameter Sets: LiteralPath, Path
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (LiteralPath, Path)
 Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+### -LiteralPath
 
-## INPUTS
+{{ Fill LiteralPath Description }}
+
+```yaml
+Type: String[]
+Parameter Sets: LiteralPath
+Aliases: 
+Accepted values: 
+
+Required: True (None) False (LiteralPath)
+Position: Named
+Default value: 
+Accept pipeline input: False
+Accept wildcard characters: False
+DontShow: False
+```
+
+### -Path
+
+A string or string array of files and folders
+
+```yaml
+Type: String[]
+Parameter Sets: Path
+Aliases: 
+Accepted values: 
+
+Required: True (None) False (Path)
+Position: 0
+Default value: 
+Accept pipeline input: True
+Accept wildcard characters: False
+DontShow: False
+```
+
+
+### CommonParameters
+
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## OUTPUTS
 
 ### [string[]]
+
+
+
 ## NOTES
+
 Inspired by https://devblogs.microsoft.com/scripting/use-powershell-to-display-short-file-and-folder-names/
 
 Changes
@@ -109,4 +167,8 @@ Changes
 
 * updated function so Test-Path, Resolve-Path, Get-Item use -LiteralPath vs -Path
 
+
 ## RELATED LINKS
+
+Fill Related Links Here
+

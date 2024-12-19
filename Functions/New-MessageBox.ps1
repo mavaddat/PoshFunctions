@@ -1,7 +1,7 @@
 function New-MessageBox {
     <#
 .SYNOPSIS
-    New-Popup will display a message box. If a timeout is requested it uses Wscript.Shell PopUp method. If a default button is requested it uses the ::Show method from 'Windows.Forms.MessageBox'
+    New-Popup will display a message box. If a timeout is requested it uses Wscript.Shell PopUp method.
 .DESCRIPTION
     The New-Popup command uses the Wscript.Shell PopUp method to display a graphical message
     box. You can customize its appearance of icons and buttons. By default the user
@@ -19,6 +19,8 @@ function New-MessageBox {
     No      =  7
 
     If no button is clicked, the return value is -1.
+
+    Values are static properties of Microsoft.VisualBasic.MsgBoxResult plus the additional entry of Timeout, -1.
 .PARAMETER Message
     The message you want displayed
 .PARAMETER Title
@@ -33,6 +35,8 @@ function New-MessageBox {
     "YesNo"
     "YesNoCancel"
     "RetryCancel"
+
+    Values are static properties of System.Windows.Forms.MessageBoxButtons
 .PARAMETER  Icon
     Valid values for -Icon include:
     "Stop"
@@ -40,22 +44,26 @@ function New-MessageBox {
     "Exclamation"
     "Information"
     "None"
+
+    Values are static properties of System.Windows.Forms.MessageBoxIcon
 .PARAMETER  ShowOnTop
     Switch which will force the popup window to appear on top of all other windows.
 .PARAMETER  AsString
     Will return a human readable representation of which button was pressed as opposed to an integer value.
+.PARAMETER Defaultbutton
+    Which button do you wish to be the default? Validate set: Button1, Button2, Button3. Values are static properties of 'System.Windows.Forms.MessageBoxDefaultButton'
 .EXAMPLE
-    new-popup -message "The update script has completed" -title "Finished" -time 5
+    New-MessageBox -Message "The update script has completed" -Title "Finished" -Time 5
 
     This will display a popup message using the default OK button and default
     Information icon. The popup will automatically dismiss after 5 seconds.
 .EXAMPLE
-    $answer = new-popup -Message "Please pick" -Title "form" -buttons "OKCancel" -icon "information"
+    $answer = New-MessageBox -Message "Please pick" -Title "form" -buttons "OKCancel" -icon "information"
 
     If the user clicks "OK" the $answer variable will be equal to 1. If the user clicks "Cancel" the
     $answer variable will be equal to 2.
 .EXAMPLE
-    $answer = new-popup -Message "Please pick" -Title "form" -buttons "OKCancel" -icon "information" -AsString
+    $answer = New-MessageBox -Message "Please pick" -Title "form" -buttons "OKCancel" -icon "information" -AsString
 
     If the user clicks "OK" the $answer variable will be equal to 'OK'. If the user clicks "Cancel" the
     $answer variable will be 'Cancel'
@@ -72,6 +80,10 @@ function New-MessageBox {
     No      =  7
 .LINK
     Wscript.Shell
+.NOTES
+    Fixed issue with -AsString and a timeout not reporting correctly.
+
+    If a default button is requested it uses the ::Show method from 'Windows.Forms.MessageBox'
 #>
 
     #region Parameters
@@ -109,7 +121,7 @@ function New-MessageBox {
         [switch] $ShowOnTop,
 
         [Parameter(ParameterSetName = 'DefaultButton')]
-        [ValidateSet('Button1', 'Button2', 'Button2')]
+        [ValidateSet('Button1', 'Button2', 'Button3')]
         [string] $DefaultButton = 'Button1',
 
         [Parameter(ParameterSetName = 'DefaultButton')]
@@ -179,7 +191,7 @@ function New-MessageBox {
                         Write-Verbose -Message "User pressed [$($returnkey[$return])]"
                     }
                     if ($AsString) {
-                        $ReturnKey[$return]
+                        $ReturnKey.$return
                     } else {
                         $return
                     }
@@ -196,7 +208,7 @@ function New-MessageBox {
                     $Return = ($MessageBox::Show($Message, $Title, $ButtonsKey[$Buttons], $Iconkey[$Icon], $DefaultButton)).Value__
                     Write-Verbose -Message "User pressed [$($returnkey[$return])]"
                     if ($AsString) {
-                        $ReturnKey[$return]
+                        $ReturnKey.$return
                     } else {
                         $return
                     }

@@ -26,7 +26,7 @@ function Format-WrapText {
 
     #region Parameter
     [CmdletBinding(ConfirmImpact = 'Low', DefaultParameterSetName = 'Width')]
-    [alias('WrapText')]
+    [alias('WrapText')] #FunctionAlias
     [OutputType('string')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
     Param(
@@ -43,7 +43,7 @@ function Format-WrapText {
     #endregion Parameter
 
     begin {
-        Write-Verbose -Message "Starting $($MyInvocation.Mycommand)"
+        Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
         Write-Verbose -Message "ParameterSetName [$($PsCmdlet.ParameterSetName)]"
         if ($PsCmdlet.ParameterSetName -eq 'Screen') {
             $Width = $host.UI.RawUI.WindowSize.Width - 1
@@ -80,6 +80,6 @@ function Format-WrapText {
         if ($null -ne $Line) {
             Write-Output -InputObject "$Line"
         }
-        Write-Verbose -Message "Ending $($MyInvocation.Mycommand)"
+        Write-Verbose -Message "Ending [$($MyInvocation.Mycommand)]"
     }
-}
+} # EndFunction Format-WrapText

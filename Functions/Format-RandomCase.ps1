@@ -28,7 +28,6 @@ function Format-RandomCase {
 [string[]]
 #>
 
-
     [CmdletBinding()]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments','')]
     param (
@@ -68,4 +67,4 @@ function Format-RandomCase {
         Write-Verbose -Message "Ending [$($MyInvocation.Mycommand)]"
     }
 
-}
+} # EndFunction Format-RandomCase

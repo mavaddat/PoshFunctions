@@ -19,8 +19,10 @@ function Invoke-Speak {
     Invoke-Speak -Expression 'This is a really long line of text. I wonder how long it will take to speak' -Async
 #>
 
+    # += here is doing string concatenation not array manipulation
+
     [CmdletBinding()]
-    [Alias('Speak')]
+    [Alias('Speak')] #FunctionAlias
     param(
         [Parameter (Mandatory, HelpMessage = 'Please enter an expression you wish to be spoken', ValueFromPipeline, Position = 0)]
         [Alias('Text')]

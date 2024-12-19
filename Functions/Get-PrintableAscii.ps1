@@ -51,8 +51,6 @@ function Get-PrintableAscii {
        57 39     9 N       False
 #>
 
-# todo - add logic to replace ' ' with '(Space)'
-
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [Parameter(ParameterSetName = 'Default')]
@@ -75,6 +73,7 @@ function Get-PrintableAscii {
     process {
         $PrintableAscii = 32..126 | ForEach-Object {
             [pscustomobject] @{
+                PSTypeName = 'PFPrintableAscii'
                 Ascii   = $_
                 Hex     = ('{0:X2}' -f $_)
                 Char    = ( [string] [char] [byte] $_)
@@ -87,7 +86,7 @@ function Get-PrintableAscii {
                 '[0-9]' { $char.Class = 'N' }
                 '[A-Z]' { $char.Class = 'U' }
                 '[a-z]' { $char.Class = 'L' }
-                '[0|O|o|1|l|I|\|+|t|\-|_|`|'']' { $char.Similar = $true }
+                '[0|O|o|Q|1|l|I|\|+|t|\-|_|`|'']' { $char.Similar = $true }
                 ' ' { $char.Char = '(Space)' }
             }
         }
@@ -105,4 +104,4 @@ function Get-PrintableAscii {
     end {
         Write-Verbose -Message "Ending [$($MyInvocation.Mycommand)]"
     }
-}
+} # EndFunction Get-PrintableAscii

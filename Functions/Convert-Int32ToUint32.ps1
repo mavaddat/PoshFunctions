@@ -32,7 +32,7 @@ function Convert-Int32ToUint32 {
     #endregion Parameter
 
     begin {
-        Write-Verbose -Message "Starting $($MyInvocation.Mycommand)"
+        Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
     }
 
     process {
@@ -41,7 +41,7 @@ function Convert-Int32ToUint32 {
             [int] $power = 0
             [uint32] $ReturnVal = 0
             for ($i = ($Hexstring.length - 1); $i -ge 0; $i--) {
-                $ReturnVal += ([int] "0x$($Hexstring.Substring($i,1))") * (Get-Power -Base 16 -Power $power)
+                $ReturnVal += ([int] "0x$($Hexstring.Substring($i,1))" * [bigint]::Pow(16, $power))
                 $power++
             }
             if ($IncludeInput) {
@@ -56,6 +56,6 @@ function Convert-Int32ToUint32 {
     }
 
     end {
-        Write-Verbose -Message "Ending $($MyInvocation.Mycommand)"
+        Write-Verbose -Message "Ending [$($MyInvocation.Mycommand)]"
     }
 }

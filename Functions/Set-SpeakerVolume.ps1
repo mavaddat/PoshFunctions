@@ -11,71 +11,34 @@ function Set-SpeakerVolume {
 
     Will display nothing and set the speaker to 80%
 .EXAMPLE
-    Set-SpeakerVolume -Volume 97 -Verbose
+    Set-SpeakerVolume -Volume 60 -Verbose
 
-    Will diplay the following while setting the speaker to 96%
-    VERBOSE: You specified the speaker volume should be 97%
-    VERBOSE: Rounding down to 96%
-    VERBOSE: Turning volume down to 0%
-    VERBOSE: Turning volume up to 96%
+    VERBOSE: Starting [Set-SpeakerVolume]
+    VERBOSE: Setting speaker volume to [60]
+    VERBOSE: Ending [Set-SpeakerVolume]
 .NOTES
     Renamed function from Set-Speaker to Set-SpeakerVolume to be clearer as to the purpose. Set an alias for the
     function to 'Set-Speaker' for backward compatibility.
 
-    The interface to setting the speaker volume really accepts values 0-50, and displays as 0-100.
-    Given this oddity, the function will round DOWN to an even number. So if you run
-    Set-SpeakerVolume -Volume 99
-    The icon for the speaker will display 98% if you hover over it.
+    Inspired by https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Volume', ConfirmImpact = 'Low')]
+    [CmdletBinding(ConfirmImpact = 'Low')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
-    [alias('Set-Speaker')]
-    Param(
-        [Parameter(ParameterSetName = 'Volume', ValueFromPipeline, HelpMessage = 'Enter the speaker volume from 0-100')]
+    [alias('Set-Speaker')] #FunctionAlias
+    param(
+        [Parameter(ValueFromPipeline, Position = 0)]
         [ValidateRange(0, 100)]
-        [int] $Volume = 50,
-
-        [Parameter(ParameterSetName = 'Adjust')]
-        [ValidateRange(-100, 100)]
-        [int] $Adjust
+        [int] $Volume = 50
     )
 
     begin {
         Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
-        Write-Verbose -Message "ParameterSetName [$($PsCmdlet.ParameterSetName)]"
     }
 
     process {
-        switch ($PsCmdlet.ParameterSetName) {
-            'Volume' {
-                Write-Verbose -Message "You specified the speaker volume should be $Volume%"
-                if (($Volume % 2) -ne 0) {
-                    $Volume = $Volume - 1
-                    Write-Verbose -Message "Rounding down to $Volume%"
-                }
-                [int] $workingVolume = [math]::floor($Volume / 2)
-                $wshShell = New-Object -ComObject wscript.shell
-                Write-Verbose -Message 'Turning volume down to 0%'
-                1..50 | ForEach-Object -Process { $wshShell.SendKeys([char]174) }
-                if ($workingVolume -gt 0) {
-                    Write-Verbose -Message "Turning volume up to $Volume%"
-                    1..$workingVolume | ForEach-Object -Process { $wshShell.SendKeys([char]175) }
-                }
-            }
-            'Adjust' {
-                Write-Verbose -Message "You specified the speaker volume should be adjusted $Adjust%"
-                [int] $workingVolume = [math]::floor($Adjust / 2)
-                $wshShell = New-Object -ComObject wscript.shell
-                if ($workingVolume -lt 0) {
-                    $workingVolume = $workingVolume * -1
-                    1..$workingVolume | ForEach-Object -Process { $wshShell.SendKeys([char]174) }
-                } elseif ($workingVolume -gt 0) {
-                    1..$workingVolume | ForEach-Object -Process { $wshShell.SendKeys([char]175) }
-                }
-            }
-        }
-
+        Write-Verbose -Message "Setting speaker volume to [$Volume]"
+        [PFAudio]::Volume = [single] ($Volume / 100)
     }
 
     end {

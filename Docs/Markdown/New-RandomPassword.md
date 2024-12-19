@@ -1,195 +1,357 @@
-﻿---
-external help file: PoshFunctions-help.xml
+---
+external help file: poshfunctions-help.xml
 Module Name: poshfunctions
-online version: http://code.google.com/apis/chart/infographics/docs/qr_codes.html
+online version: 
 schema: 2.0.0
 ---
 
 # New-RandomPassword
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+
+Creates a new random password
 
 ## SYNTAX
 
 ### ReadableTitleCase (Default)
+
 ```
-New-RandomPassword [-MinLength <Int32>] [-MaxLength <Int32>] [-Readable] [-AvoidSimilar] [-TitleCase]
- [-FullWordList] [<CommonParameters>]
+New-RandomPassword [-AvoidSimilar] [-FullWordList] [-MaxLength <Int32>] [-MinLength <Int32>] [-NumeralCount <Int32>] [-Readable] [-SymbolCount <Int32>] [-TitleCase] [<CommonParameters>]
 ```
 
 ### ReadableRandomCase
+
 ```
-New-RandomPassword [-MinLength <Int32>] [-MaxLength <Int32>] [-Readable] [-AvoidSimilar] [-RandomCase]
- [-FullWordList] [<CommonParameters>]
+New-RandomPassword [-AvoidSimilar] [-FullWordList] [-MaxLength <Int32>] [-MinLength <Int32>] [-NumeralCount <Int32>] [-RandomCase] [-Readable] [-SymbolCount <Int32>] [<CommonParameters>]
 ```
 
 ### Web
+
 ```
-New-RandomPassword [-MinLength <Int32>] [-MaxLength <Int32>] [-NonAlphaChars <Int32>] [-AvoidSimilar] [-Web]
- [<CommonParameters>]
+New-RandomPassword [-AvoidSimilar] [-MaxLength <Int32>] [-MinLength <Int32>] [-NonAlphaChars <Int32>] [-Web] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+
+Creates a new random password.
+Parameters can be passed to determine minimum and maximum password lengths, whether to avoid characters that are similar to one another or to limit it to readable words.
+Please read .NOTES section.
+
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### Example 1: EXAMPLE 1
+
+```
+New-RandomPassword -Web
 ```
 
-{{ Add example description here }}
+
+
+
+
+
+
+### Example 2: EXAMPLE 2
+
+```
+New-RandomPassword -MinLength 16 -AvoidSimilar
+```
+
+
+
+
+
+
+
+### Example 3: EXAMPLE 3
+
+```
+New-RandomPassword -Readable -MinLength 8 -RandomCase
+```
+
+
+
+
+
+
+
+### Example 4: EXAMPLE 4
+
+```
+New-RandomPassword -MinLength 16 -AvoidSimilar -Web
+```
+
+
+
+
+
+
+
+### Example 5: EXAMPLE 5
+
+```
+New-RandomPassword -MinLength 16 -MaxLength 20 -Readable -AvoidSimilar
+```
+
+
+
+
+
+
+
+### Example 6: EXAMPLE 6
+
+```
+New-RandomPassword -MinLength 16 -Readable -NumeralCount 2 -SymbolCount 2
+```
+
+Tonics39Sue@Joy(
+
+
+
+
+
 
 ## PARAMETERS
 
 ### -AvoidSimilar
-{{ Fill AvoidSimilar Description }}
+
+Switch to prevent characters that are similar to one another to be included.
+For instance 1, l, I.
+ParameterSetName: ReadableTitleCase, ReadableRandomCase, Web
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
+Parameter Sets: ReadableRandomCase, ReadableTitleCase, Web
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableRandomCase, ReadableTitleCase, Web)
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -FullWordList
-{{ Fill FullWordList Description }}
+
+Switch to use full word list of 370,103 words vs.
+38,000 words
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: ReadableTitleCase, ReadableRandomCase
-Aliases:
+Parameter Sets: ReadableRandomCase, ReadableTitleCase
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableRandomCase, ReadableTitleCase)
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -MaxLength
-{{ Fill MaxLength Description }}
+
+Integer representing maximum password length, valid range 8-102 characters.
+ParameterSetName: ReadableTitleCase, ReadableRandomCase, Web
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
-Aliases:
+Parameter Sets: ReadableRandomCase, ReadableTitleCase, Web
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableRandomCase, ReadableTitleCase, Web)
 Position: Named
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -MinLength
-{{ Fill MinLength Description }}
+
+Integer representing minimum password length, valid range 8-102 characters.
+ParameterSetName: ReadableTitleCase, ReadableRandomCase, Web
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
-Aliases:
+Parameter Sets: ReadableTitleCase, ReadableRandomCase, Web
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableTitleCase, ReadableRandomCase, Web)
 Position: Named
-Default value: None
+Default value: 12
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -NonAlphaChars
-{{ Fill NonAlphaChars Description }}
+
+Integer representing the number of non alphabetic characters.
+ParameterSetName: Web
 
 ```yaml
 Type: Int32
 Parameter Sets: Web
-Aliases:
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (Web)
 Position: Named
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
+```
+
+### -NumeralCount
+
+Integer representing the number of digits.
+Valid range 1-2, default is 1
+
+```yaml
+Type: Int32
+Parameter Sets: ReadableRandomCase, ReadableTitleCase
+Aliases: 
+Accepted values: 
+
+Required: True (None) False (ReadableRandomCase, ReadableTitleCase)
+Position: Named
+Default value: 1
+Accept pipeline input: False
+Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -RandomCase
-{{ Fill RandomCase Description }}
+
+Switch to randomly capitalize letters in each word.
+ParameterSetName: ReadableRandomCase
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: ReadableRandomCase
-Aliases:
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableRandomCase)
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -Readable
-{{ Fill Readable Description }}
+
+Switch indicating to use combinations of English words.
+Default behavior is to output a words that are title cased.
+ParameterSetName: ReadableTitleCase, ReadableRandomCase
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: ReadableTitleCase, ReadableRandomCase
-Aliases:
+Parameter Sets: ReadableRandomCase, ReadableTitleCase
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableRandomCase, ReadableTitleCase)
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
+```
+
+### -SymbolCount
+
+Integer representing the number of symbol characters.
+Valid range 1-2, default is 1
+
+```yaml
+Type: Int32
+Parameter Sets: ReadableRandomCase, ReadableTitleCase
+Aliases: 
+Accepted values: 
+
+Required: True (None) False (ReadableRandomCase, ReadableTitleCase)
+Position: Named
+Default value: 1
+Accept pipeline input: False
+Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -TitleCase
-{{ Fill TitleCase Description }}
+
+Switch to capitalize each word.
+ParameterSetName: ReadableTitleCase
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: ReadableTitleCase
-Aliases:
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (ReadableTitleCase)
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
 ### -Web
-{{ Fill Web Description }}
+
+Switch to use web algorithm.
+ParameterSetName: Web
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Web
-Aliases:
+Aliases: 
+Accepted values: 
 
-Required: False
+Required: True (None) False (Web)
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
+DontShow: False
 ```
 
+
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
-
-## INPUTS
-
-### None
 
 ## OUTPUTS
 
 ### string
 
+
+
 ## NOTES
 
+Changes:
+
+Added -TitleCase switch so that each word is capitalized
+Added -RandomCase switch so that each letter is randomly capitalized
+Added -Web switch so that web algorithm is used
+Changed parameter set names to more accurately reflect what they do
+Updated help comments
+DefaultParameterSetName is 'ReadableTitleCase'
+Added 'Q' to similar regex given closeness to 'O'
+Added NumeralCount and SymbolCount to increase complexity
+
+
 ## RELATED LINKS
+
+Fill Related Links Here
+

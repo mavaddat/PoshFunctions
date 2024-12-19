@@ -17,6 +17,8 @@ function Test-Network {
     10.100.40.4 server-101811.contosco.com Success
     10.100.40.5 server-102372.contosco.com TimeOut
     10.100.40.6 server-101875.contosco.com Success
+.NOTES
+    Changed output slightly so that it will always return an array even if there is zero or one item in the result set
 #>
 
     [cmdletbinding()]
@@ -52,7 +54,7 @@ function Test-Network {
                     $curResult.Result = 'TimeOut'
                 }
             }
-            $result = $result | Where-Object { -not ($_.ComputerName -eq 'UNKNOWN' -and $_.Result -eq 'TimeOut') }
+            [array] $result = $result | Where-Object { -not ($_.ComputerName -eq 'UNKNOWN' -and $_.Result -eq 'TimeOut') }
             Write-Output -InputObject $result
         }
     }

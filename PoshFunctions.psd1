@@ -4,7 +4,7 @@
     RootModule        = 'PoshFunctions.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.2.8'
+    ModuleVersion     = '2.2.12'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -19,13 +19,13 @@
     CompanyName       = ''
 
     # Copyright statement for this module
-    Copyright         = '(c) 2021 Bill Riedy. All rights reserved.'
+    Copyright         = '(c) 2024 Bill Riedy. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'A curated collection of over 200 PowerShell functions. Many functions written by me. Others are attributed wherever possible.'
+    Description       = 'A curated collection of over 250 PowerShell functions. Many functions written by me. Others are attributed wherever possible.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '3.0'
+    PowerShellVersion = '5.0'
 
     # Name of the Windows PowerShell host required by this module
     # PowerShellHostName = ''
@@ -55,73 +55,120 @@
     # TypesToProcess = @()
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @()
+    # Recreate by running from PS prompts in PoshFunctions folder
+    #
+
+    <# To recreate Markdown help
+
+    remove-item .\Docs\Markdown\*
+    new-markdownhelp -Module PoshFunctions -OutputFolder .\Docs\Markdown -Encoding ([System.Text.Encoding]::Ascii)
+
+    To recreate HTML from Markdown
+
+    remove-item .\Docs\HTML\* -recurse -force
+    Convert-MarkdownToHTML -Path .\Docs\Markdown\* -SiteDirectory .\Docs\Html
+
+    #>
+    <#
+    dir .\Formats\*.ps1xml |
+    Get-RelativePath -RelativeTo $pwd |
+    Write-StringArray -VariableName FormatsToProcess -ExcludeDollarSign |
+    Format-WrapText -Width 100 |
+    Set-Clipboard
+#>
+
+    FormatsToProcess  = @( '.\Formats\Get-DriveStatBytes.Format.ps1xml',
+        '.\Formats\Get-DriveStatGB.Format.ps1xml', '.\Formats\Get-DriveStatKB.Format.ps1xml',
+        '.\Formats\Get-DriveStatMB.Format.ps1xml', '.\Formats\Get-NamedColorBrief.Format.ps1xml',
+        '.\Formats\Get-NamedColorFull.Format.ps1xml', '.\Formats\Get-PrintableAscii.Format.ps1xml',
+        '.\Formats\Get-RebootHistory.Format.ps1xml', '.\Formats\Get-VssAdminListWriters.Format.ps1xml',
+        '.\Formats\New-PFDateFormat.Format.ps1xml', '.\Formats\Test-Port.Format.ps1xml' )
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     # NestedModules = @()
 
     # Functions export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
+    # Recreated by running the following from PS prompt in PoshFunctions folder
 
-    FunctionsToExport = @( 'Compare-ObjectProperty', 'Compare-ObjectSetComplement',
-        'Compare-ObjectSetDifference', 'Compare-ObjectSetIntersection',
-        'Compare-ObjectSetUnion', 'Compare-PSGalleryObject', 'Convert-HexToRGB',
-        'Convert-Int32ToUint32', 'Convert-Int64ToText', 'Convert-ObjectToHashtable',
+    <#
+    dir .\Functions\*.ps1 |
+    select -expand basename |
+    Write-StringArray -VariableName FunctionsToExport -ExcludeDollarSign |
+    Format-WrapText -Width 80 |
+    set-clipboard
+#>
+
+    FunctionsToExport = @( 'Add-FileAttribute', 'Compare-ObjectProperty',
+        'Compare-ObjectSetComplement', 'Compare-ObjectSetDifference',
+        'Compare-ObjectSetIntersection', 'Compare-ObjectSetUnion',
+        'Compare-PSGalleryObject', 'Convert-HexToRGB', 'Convert-Int32ToUint32',
+        'Convert-Int64ToText', 'Convert-Int64ToUint64', 'Convert-ObjectToHashtable',
         'Convert-RGBToHex', 'Convert-SecureStringToString', 'Convert-UserFlag',
         'ConvertFrom-Base64', 'ConvertFrom-Binary', 'ConvertFrom-DateTime',
-        'ConvertFrom-FsRight', 'ConvertFrom-Hex', 'ConvertFrom-HtmlEncode',
-        'ConvertFrom-UrlEncode', 'ConvertFrom-UTC', 'ConvertFrom-Xml',
-        'ConvertTo-Base64', 'ConvertTo-Binary', 'ConvertTo-BinaryIPv4',
-        'ConvertTo-Bool', 'ConvertTo-DateTime', 'ConvertTo-DecimalIPv4',
-        'ConvertTo-DottedDecimalIPv4', 'ConvertTo-Hex', 'ConvertTo-HtmlEncode',
-        'ConvertTo-OrderedDictionary', 'ConvertTo-UncPath', 'ConvertTo-UrlEncode',
-        'ConvertTo-UTC', 'Copy-Object', 'Eexit', 'Expand-IPv6', 'Expand-String',
-        'Expand-Tab', 'Export-CSVSortedColumn', 'Export-FontSample', 'FileSizeAbove',
-        'FileSizeBelow', 'Format-MacAddress', 'Format-RandomCase',
+        'ConvertFrom-FsRight', 'ConvertFrom-Hex', 'ConvertFrom-HexString',
+        'ConvertFrom-HtmlEncode', 'ConvertFrom-RomanNumeral', 'ConvertFrom-UrlEncode',
+        'ConvertFrom-UTC', 'ConvertFrom-Xml', 'ConvertTo-Base64', 'ConvertTo-Binary',
+        'ConvertTo-BinaryIPv4', 'ConvertTo-Bool', 'ConvertTo-DateTime',
+        'ConvertTo-DecimalIPv4', 'ConvertTo-DottedDecimalIPv4', 'ConvertTo-Hex',
+        'ConvertTo-HexString', 'ConvertTo-HtmlEncode', 'ConvertTo-OrderedDictionary',
+        'ConvertTo-PFEscape', 'ConvertTo-RomanNumeral', 'ConvertTo-UncPath',
+        'ConvertTo-UrlEncode', 'ConvertTo-UTC', 'Copy-Object', 'Expand-IPv6',
+        'Expand-String', 'Expand-Tab', 'Export-CSVSortedColumn', 'Export-FontSample',
+        'FileSizeAbove', 'FileSizeBelow', 'Format-MacAddress', 'Format-RandomCase',
         'Format-ReverseString', 'Format-ReverseToken', 'Format-SortedList',
-        'Format-TitleCase', 'Format-WrapText', 'Get-ArpTable', 'Get-BashPath',
-        'Get-BinaryType', 'Get-CeasarCipher', 'Get-ComputerSite', 'Get-ComputerUptime',
-        'Get-DiceRoll', 'Get-DisplayBrightness', 'Get-DNSHostEntryAsync',
-        'Get-DriveStat', 'Get-DuplicateFileName', 'Get-Enum', 'Get-ExecutableForFile',
-        'Get-FileEncoding', 'Get-FileName', 'Get-FileWithLeadingSpace',
-        'Get-FolderName', 'Get-Font', 'Get-Fortune', 'Get-InvalidFileCharacter',
-        'Get-IpRange', 'Get-LastDayInMonth', 'Get-List', 'Get-LongName',
-        'Get-MachineType', 'Get-MacVendor', 'Get-Magic8Ball', 'Get-Md5Sum',
-        'Get-MyLocalLogonTime', 'Get-NetworkCredential', 'Get-NTFSPermission',
-        'Get-NtpDate', 'Get-Power', 'Get-PrintableAscii', 'Get-PrivateProfileComment',
+        'Format-TitleCase', 'Format-WrapText', 'Get-AppEventSound', 'Get-ArpTable',
+        'Get-Assoc', 'Get-AutoRun.inf', 'Get-BashPath', 'Get-BinaryType',
+        'Get-CeasarCipher', 'Get-ComputerSite', 'Get-ComputerUptime',
+        'Get-ConsoleColor', 'Get-ConsoleWindowSize', 'Get-DaysOfWeek',
+        'Get-Desktop.ini', 'Get-DiceRoll', 'Get-DiskType', 'Get-DisplayBrightness',
+        'Get-DNSHostEntryAsync', 'Get-DriveStat', 'Get-DuplicateFileName', 'Get-Enum',
+        'Get-ErrorInfo', 'Get-ExecutableForFile', 'Get-Factorial', 'Get-FileEncoding',
+        'Get-FileName', 'Get-FileSizeOnDisk', 'Get-FileWithLeadingSpace',
+        'Get-FolderName', 'Get-Font', 'Get-Fortune', 'Get-FsRight', 'Get-Ftype',
+        'Get-InvalidFileCharacter', 'Get-IpRange', 'Get-IpV4Network',
+        'Get-LastDayInMonth', 'Get-List', 'Get-LongName', 'Get-MachineType',
+        'Get-MacVendor', 'Get-Magic8Ball', 'Get-Months', 'Get-MyLocalLogonTime',
+        'Get-NamedColor', 'Get-NetworkCredential', 'Get-NTFSPermission', 'Get-NtpDate',
+        'Get-Power', 'Get-PrintableAscii', 'Get-PrivateProfileComment',
         'Get-PrivateProfileSection', 'Get-PrivateProfileSectionNames',
         'Get-PrivateProfileString', 'Get-ProcessUser', 'Get-PSWho', 'Get-RandomDate',
-        'Get-RandomHexDigit', 'Get-RandomMacAddress', 'Get-RegExpandString',
-        'Get-RegistryValue', 'Get-RelativePath', 'Get-Round', 'Get-SaveFileName',
-        'Get-ScheduledTaskUser', 'Get-ServiceUser', 'Get-Shortcut', 'Get-ShortName',
-        'Get-SID', 'Get-SpecialFolder', 'Get-SqlDatabase', 'Get-SqlIndexFragmentation',
-        'Get-SqlStoredProcedure', 'Get-StaticProperty', 'Get-String',
-        'Get-SubnetMaskIPv4', 'Get-TruncatedDate', 'Get-Type', 'Get-TypeAccelerator',
-        'Get-UrlContent', 'Get-VssAdminListVolumes', 'Get-VssAdminListWriters',
-        'Get-WordCount', 'Get-WordList', 'grep', 'Invoke-Beep',
-        'Invoke-CountdownTimer', 'Invoke-Speak', 'Join-Object', 'Lock-Workstation',
+        'Get-RandomHexDigit', 'Get-RandomMacAddress', 'Get-RebootHistory',
+        'Get-RegExpandString', 'Get-RegistryValue', 'Get-RelativePath', 'Get-Round',
+        'Get-SaveFileName', 'Get-ScheduledTaskUser', 'Get-ServiceUser', 'Get-Shortcut',
+        'Get-ShortName', 'Get-SID', 'Get-SpeakerVolume', 'Get-SpecialFolder',
+        'Get-SqlDatabase', 'Get-SqlIndexFragmentation', 'Get-SqlStoredProcedure',
+        'Get-StaticProperty', 'Get-String', 'Get-StringHash', 'Get-SubnetMaskIPv4',
+        'Get-TruncatedDate', 'Get-Type', 'Get-TypeAccelerator', 'Get-UrlContent',
+        'Get-VssVolume', 'Get-VssWriter', 'Get-VssWriterToService', 'Get-WordCount',
+        'Get-WordList', 'grep', 'Invoke-Beep', 'Invoke-CountdownTimer',
+        'Invoke-SoundPlayer', 'Invoke-Speak', 'Join-Object', 'Lock-Workstation',
         'Measure-Char', 'Merge-Object', 'mklink', 'Move-ToRecycleBin',
         'New-ColorPicker', 'New-Credential', 'New-DatePicker', 'New-FontPicker',
-        'New-InputBox', 'New-InputBoxSecureString', 'New-MessageBox',
-        'New-PFDateFormat', 'New-QR', 'New-RandomPassword', 'New-Screenshot',
-        'New-Shortcut', 'Optimize-SqlIndexFragmentation',
-        'Optimize-SqlStoredProcedure', 'Out-PDFToPrinter', 'Read-HostWithDefault',
-        'Remove-BlankOrComment', 'Remove-EmptyProperty', 'Remove-QuotesFromCsv',
-        'Remove-TeamsCache', 'Remove-Trailing', 'Reset-Desktop', 'Resolve-FQDN',
-        'Resolve-HostName', 'sed', 'Set-Capslock', 'Set-Display', 'Set-Numlock',
+        'New-InputBox', 'New-InputBoxSecureString', 'New-MailToURI', 'New-MessageBox',
+        'New-PFDateFormat', 'New-QR', 'New-QRCode', 'New-RandomPassword',
+        'New-Screenshot', 'New-Shortcut', 'New-SmsUri', 'New-TelephoneUri',
+        'New-TemporaryFileWithExtension', 'New-VirtualHardDisk', 'New-WifiUri',
+        'Optimize-SqlIndexFragmentation', 'Optimize-SqlStoredProcedure',
+        'Out-PDFToPrinter', 'Read-HostPause', 'Read-HostWithDefault',
+        'Remove-BlankOrComment', 'Remove-EmptyProperty', 'Remove-FileAttribute',
+        'Remove-QuotesFromCsv', 'Remove-TeamsCache', 'Remove-Trailing',
+        'Reset-Desktop', 'Resolve-FQDN', 'Resolve-HostName', 'Resolve-PathForce',
+        'sed', 'Set-AutoRun.inf', 'Set-Capslock', 'Set-Desktop.ini', 'Set-Display',
+        'Set-EOLTerminator', 'Set-FileEncoding', 'Set-Numlock',
         'Set-PrivateProfileComment', 'Set-PrivateProfileString', 'Set-Scrolllock',
-        'Set-SpeakerVolume', 'Set-Type', 'Set-WindowStyle', 'Show-AllColor',
-        'Show-Color', 'Show-ColorsWithBackground', 'Show-DaysOfWeek',
-        'Show-FileAttribute', 'Show-FsRight', 'Show-Month', 'Show-NamedColor',
-        'Show-Object', 'Show-Progress', 'Show-ShortDaysOfWeek', 'Show-ShortMonth',
-        'Show-SubnetMaskIPv4', 'Show-Timezone', 'Split-Line', 'Start-ADReplication',
+        'Set-SpeakerMute', 'Set-SpeakerVolume', 'Set-Type', 'Set-WindowState',
+        'Set-WindowStyle', 'Show-Calendar', 'Show-FileAttribute', 'Show-Object',
+        'Show-Progress', 'Show-SubnetMaskIPv4', 'Show-Timezone', 'Split-CanonicalName',
+        'Split-DistinguishedName', 'Split-Line', 'Start-ADReplication',
         'Start-RecordSession', 'Stop-RecordSession', 'Switch-Mute',
-        'Test-ConnectionAsync', 'Test-IsAdmin', 'Test-IsCapsLock', 'Test-IsDate',
-        'Test-IsFileLocked', 'Test-IsHexString', 'Test-IsNull', 'Test-IsNumeric',
-        'Test-IsNumLock', 'Test-IsScrollLock', 'Test-IsValidEmailAddress',
-        'Test-IsValidIPv4', 'Test-IsValidIPv6', 'Test-MultipleBool', 'Test-Network',
-        'Test-NtpDateVsNow', 'Test-Password', 'Test-PasswordComplexity', 'Test-Port',
-        'Test-Set', 'Update-ExplorerIcon', 'Use-Stopwatch', 'Write-StringArray',
-        'Write-StringHash', 'Write-TextMenu' )
+        'Test-ConnectionAsync', 'Test-CSVFormat', 'Test-IsAdmin', 'Test-IsCapsLock',
+        'Test-IsDate', 'Test-IsFileLocked', 'Test-IsHexString', 'Test-IsLocalIPv4',
+        'Test-IsNull', 'Test-IsNumeric', 'Test-IsNumLock', 'Test-IsScrollLock',
+        'Test-IsSpeakerMute', 'Test-IsValidEmailAddress', 'Test-IsValidIPv4',
+        'Test-IsValidIPv6', 'Test-MultipleBool', 'Test-Network', 'Test-NtpDateVsNow',
+        'Test-Password', 'Test-PasswordComplexity', 'Test-Port', 'Test-Set',
+        'Update-ExplorerIcon', 'Use-Stopwatch', 'Write-SelectStatement',
+        'Write-StringArray', 'Write-StringHash', 'Write-TextMenu' )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     #CmdletsToExport = '*'
@@ -130,16 +177,31 @@
     #VariablesToExport = '*'
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    # AliasesToExport = '*'
+    # AliasesToExport   = '*'
+
+    <#
+    To recreate:
+
+    $regex = "\[alias\('(.+)'\)]"
+    sls -pattern FunctionAlias .\Functions\*.ps1 | foreach-object {
+        if ($_ -match $regex) {
+            $matches[1]
+        }
+    } | sort-object |
+    Write-StringArray -VariableName AliasesToExport -ExcludeDollarSign |
+    Format-WrapText -width 80 | set-clipboard
+#>
 
     AliasesToExport   = @( 'Base64Decode', 'Base64Encode', 'Beep',
         'Convert-IntToText', 'Convert-ROT13', 'ConvertTo-BinaryIP',
         'ConvertTo-DecimalIP', 'ConvertTo-DottedDecimalIP', 'CountdownTimer',
         'Fortune', 'Get-DupeFileName', 'Get-Folder', 'Get-LastReboot', 'Get-SaveFile',
-        'Get-SubnetMaskIP', 'Md5Sum', 'Parse-Bool', 'Recycle', 'ReverseString',
-        'Set-Speaker', 'Show-InvalidFileCharacter', 'Show-SpecialFolder',
-        'Show-SubnetMaskIP', 'Show-TypeAccelerator', 'Speak', 'Test-IsValidIP',
-        'Test-MultiBool', 'UrlDecode', 'UrlEncode', 'WrapText' )
+        'Get-SubnetMaskIP', 'Get-VssadminListVolumes', 'Get-VssadminListWriters',
+        'Parse-Bool', 'Recycle', 'ReverseString', 'Set-Speaker', 'Show-Color',
+        'Show-DaysOfWeek', 'Show-InvalidFileCharacter', 'ShowMonth', 'Show-NamedColor',
+        'Show-SpecialFolder', 'Show-SubnetMaskIP', 'Show-TypeAccelerator', 'Speak',
+        'Test-IsLocalIP', 'Test-IsValidIP', 'Test-MultiBool', 'Union-Object',
+        'UrlDecode', 'UrlEncode', 'WrapText' )
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -163,7 +225,7 @@
                 'expand-tab', 'exponentiation', 'file', 'file-encoding', 'file-invalidchar',
                 'folder', 'format', 'functions', 'gui', 'ini', 'inputbox', 'ip', 'iprange',
                 'isadmin', 'isdate', 'ishexstring', 'isnumeric', 'isvalidemail', 'isvalidip',
-                'library', 'macaddress', 'magic8ball', 'markdown', 'md5sum', 'msgbox',
+                'library', 'macaddress', 'magic8ball', 'markdown', 'msgbox',
                 'numlock', 'ping-async', 'popup', 'progress', 'random-date', 'registry',
                 'reverse-string', 'rot13', 'round', 'savefile', 'scrolllock', 'set-type',
                 'share-permission', 'share-stat', 'shortcut', 'sid', 'speak', 'subnetmask',
@@ -171,143 +233,138 @@
 
 
             # A URL to the license for this module.
-            LicenseUri   = 'https://github.com/riedyw/PoshFunctions/blob/master/License.txt'
+            LicenseUri   = 'https://github.com/riedyw/PoshFunctions/blob/master/Resources/License.txt'
 
             # A URL to the main website for this project.
             ProjectUri   = 'https://github.com/riedyw/PoshFunctions'
 
             # A URL to an icon representing this module.
-            IconUri      = 'https://github.com/riedyw/PoshFunctions/blob/master/PoshFunctions.png'
+            IconUri      = 'https://github.com/riedyw/PoshFunctions/blob/master/Resources/PoshFunctions.png'
 
             # ReleaseNotes of this module
             ReleaseNotes = @'
 For full release notes see .\Resources\ReleaseNotes.txt
-### 2.2.8
-* created .\Resources folder and moved files from the root of the modules excluding: PoshFunctions.psd1, PoshFunctions.psm1, ReadMe.md
-* added additional word list file that contains over 370,000 entries for more English words
-* added Convert-Int64ToText - Take an integer value and convert to English text. Valid range +/- 999,999,999,999.
-* added Get-ArpTable - takes output from 'arp.exe -a' and parses output into objects
-* added Get-VssAdminListVolumes - takes output from 'vssadmin.exe list volumes' and parses output into objects
-* added Get-VssAdminListWriters - takes output from 'vssadmin.exe list writers' and parses output into objects
-* added New-PFDateFormat - which represents a [datetime] in multiple formats
-* deleted Get-Address - REST API at website no longer works
-* deleted Get-GeoCode - REST API at website no longer works
-* deleted Show-Calendar - function is flat out broken and all prior versions have the same error
-* updated Convert-HexToRGB - changed 'return' to 'break' in error condition
-* updated Expand-String - changed class name from 'ExtractData' to 'PFExtractData' to prevent conflict
-* updated Get-BinaryType - changed namespace from 'Win32Utils' to 'PFWin32Utils' to prevent conflict
-* updated Get-ExecutableForFile - changed class name from 'Win32API' to 'PFWin32API' to prevent conflict, changed name of internal variable
-* updated Get-LongName - updated function so Test-Path, Resolve-Path, Get-Item use -LiteralPath vs -Path
-* updated Get-MacVendor - changed [ValidatePattern] to logic within function to clean up improperly formatted mac addresses, display MacAddress then Vendor
-* updated Get-NTFSPermission - changed 'return' to 'break' in error condition
-* updated Get-RandomDate - changed 'return' to 'break' in error condition
-* updated Get-SQLDatabase - changed 'return' to 'break' in error condition
-* updated Get-SQLIndexFragmentation - changed 'return' to 'break' in error condition
-* updated Get-SQLStoredProcedure - changed 'return' to 'break' in error condition
-* updated Get-ShortName - updated function so Test-Path, Resolve-Path, Get-Item use -LiteralPath vs -Path
-* updated Get-UrlContent - changed 'return' to 'break' in error condition
-* updated Get-WordCount - function would throw errors if it encountered PowerShell keywords, implemented work around
-* updated Get-Wordlist - added -Full to use longer > 370,000 word list resource, moved word list file to .\Resources
-* updated New-ColorPicker - to reflect its icon file moving to .\Resources
-* updated New-DatePicker - to reflect its icon file moving to .\Resources
-* updated New-FontPicker - to reflect its icon file moving to .\Resources
-* updated New-InputBoxSecureString - to reflect its icon file moving to .\Resources, changed 'return' to 'break' in error condition
-* updated New-RandomPassword - added -FullWordlist to use longer wordlist file
-* updated New-Screenshot - changed 'return' to 'break' in error condition
-* updated Optimize-SQLIndexFragmentation - changed 'return' to 'break' in error condition
-* updated Optimize-SQLStoredProcedure - changed 'return' to 'break' in error condition
-* updated Remove-TeamsCache - changed 'return' to 'break' in error condition
-* updated Set-Display - changed class name from 'API' to 'PFAPI' to prevent conflict, changed name of internal variable
-* updated Set-SpeakerVolume - added -Adjust parameter so you can adjust volume up or down
-* updated Start-AdReplication - changed hard coded -ThrottleLimit from 8 to [environment]::ProcessorCount so that it determines number of processors on the fly
-* updated Test-PasswordComplexity - removed dependency on Get-PrintableAscii
+### 2.2.12
+* added about_PoshFunctions for an overview of the module
+* updated PoshFunctions.psm1 - added $Script:IconFile variable
+* updated Wisdom.txt - minor grammatical mistakes
+* added ConvertTo-PFEscape - some of the New-*Uri functions needed to be able to escape strings in a special way
+* added Get-SpeakerVolume - wanted to be able to determine what the current volume of the speakers are
+* added Get-VssWriterToService - VSS writers are managed by a particular service and this corresponds the two
+* added New-MailToURI - used to create properly formatted string to generate a QR code to begin composing an email
+* added New-SmsUri - used to create properly formatted string to generate a QR code to compose a text message
+* added New-TelephoneUri - used to create properly formatted string to generate a QR code to begin calling a number
+* added New-TemporaryFileWithExtension - extend functionality of New-TemporaryFile so that a custom extension can be used
+* added New-WifiUri - used to create properly formatted string to generate a QR code to join a particular SSID
+* added Remove-OldFiles - given a path, a filespec, and a count it will search that path for the filespec and keep the latest count of files that match
+* added Set-SpeakerMute - using API based function
+* added Test-IsSpeakerMute - using API based function
+* deleted Show-ConsoleColor - incorporated into Get-ConsoleColor
+* deleted Show-ConsoleColorWithBackground - incorporated into Get-ConsoleColor
+* deleted Show-ShortDaysOfWeek - incorporated into Get-DaysOfWeek with -Short parameter
+* deleted Show-ShortMonth - incorporated into Get-Months with -Short parameter
+* deleted Show-SubnetMaskIPv4 - incorporated into Get-SubnetMaskIPv4 with -All parameter
+* deleted Show-Timezone - no longer needed with Get-TimeZone from Microsoft.PowerShell.Management
+* renamed Get-DaysOfWeek - from Show-DaysOfWeek, also incorporated -Short parameter so that this incorporates both functions
+* renamed Get-Months - from Show-Month, also incorporated -Short parameter so that this incorporates both functions
+* renamed Get-VssVolume - Original name 'Get-VssadminListVolumes', aliased to 'Get-VssadminListVolumes'
+* renamed Get-VssWriter - Original name 'Get-VssadminListWriters', aliased to 'Get-VssadminListWriters'
+* renamed Show-ColorWithBackground - from original name Show-ColorsWithBackground, aliased to Show-ColorsWithBackground. Be more Powershell-y
+* renamed Show-ConsoleColor - from original name Show-AllColor, aliased to Show-AllColor
+* rewrote New-QRCode - previous version relied on Google service no longer available, using a new service now, parameters changed
+* rewrote Set-SpeakerVolume - to use API based function and not SendKeys
+* updated Get-ComputerUptime - added credential to New-CimSession
+* updated Get-ConsoleColor - incorporated -Show and -ShowWithBackground parameters
+* updated Get-DisplayBrightness - using more standard -IncludeInput parameter
+* updated Get-Enum - changed logic from adding to array with += to using [System.Collections.ArrayList] and .Add method
+* updated Get-Font - updated comment help to indicate that it captures the state of fonts when the Powershell session initiated
+* updated Get-Fortune - updated comment help and clarified a few things
+* updated Get-IpRange - changed logic from adding to array with += to using [System.Collections.ArrayList] and .Add method
+* updated Get-SubnetMaskIPv4 - added -All parameter, used parameter set names, defined default parameter set name, made subnet mask first property in output
+* updated Get-Type - changed logic from adding to array with += to using [System.Collections.ArrayList] and .Add method
+* updated Get-TypeAccelerator - changed logic from adding to array with += to using [System.Collections.ArrayList] and .Add method
+* updated New-ColorPicker - changed how the icon is set
+* updated New-DatePicker - changed how the icon is set
+* updated New-FontPicker - changed how the icon is set
+* updated New-InputBoxSecureString - added switch parameter to allow for string output as opposed to secure string output, changed how icon set
+* updated New-MessageBox - corrected validation set for -Defaultbutton parameter
+* updated New-ScreenShot - added note in comment help that it may trigger anti-malware software
+* updated New-VirtualHardDisk - updated comment help, removed unused variables
+* updated Set-SpeakerVolume - use defined class to directly set the volume
+* updated Start-ADReplication - made $Name optional and defaults to $env:COMPUTERNAME
+* updated Test-IsScrollLock - updated comment help
+* updated Test-Network - altered logic so that it returns an array even if returning 0 or 1 item
 
-### 2.2.7
-* added module icon file .\PoshFunctions.ico for custom WinForms forms created
-* moved function aliases to within the function definition so all the code is together
-* added ConvertFrom-HtmlEncode - helps with decoding strings that contain HTML special characters. For instance, 'this &amp; that' becomes 'this & that'
-* added ConvertTo-HtmlEncode - helps with encoding strings that contain HTML special characters. For instance, 'this & that' becomes 'this &amp; that'
-* added Export-FontSample - creates HTML output of sample text formatted with all of the installed fonts on the system
-* added Get-CeasarCipher - a more robust version of Convert-ROT13 where you can specify the key or number of positions to shift. Aliased to 'Convert-ROT13' for backward compatibility.
-* added Get-DisplayBrightness - to determine current display brightness
-* added Get-DuplicateFileName - creates a quick list of duplicate file names within a given folder
-* added Get-List - function to return an array given an indeterminate number of command line parameters
-* added Get-String - function to return a string given an indeterminate number of command line parameters
-* added New-ColorPicker - presents dialog box where user can select a color.
-* added New-DatePicker - presents dialog box where user can select a date, can optionally include the time
-* added New-FontPicker - dialog that allows user to select a font from a dialog box
-* added Split-Line - more reliably split a string into its constituent lines. Returns an array.
-* added Test-MultipleBool - to do logical AND/OR across an array of boolean values
-* added Test-PasswordComplexity - to verify if a string is of proper length and matches all character types
-* added Write-StringHash - to take a given hashtable and write the code to create it
-* removed Convert-ROT13 - see more robust Get-CeasarCipher
-* renamed Set-Speaker to Set-SpeakerVolume to be better named. Set an alias to Set-Speaker for backward compatibility
-* renamed Union-Object to Merge-Object to get around Invoke-ScriptAnalyzer error
-* updated ConvertFrom-Binary - changed result to [uint64[]] to be able to convert larger numbers.
-* updated ConvertFrom-Hex - changed result to [uint64[]] to be able to convert larger numbers.
-* updated ConvertTo-Binary - changed -Number to [uint64[]] to be able to convert larger numbers. added -MinimumWidth parameter
-* updated ConvertTo-Hex - changed -Number to [uint64[]] to be able to convert larger numbers. added -MinimumWidth parameter, and -Prefix parameter
-* updated Get-ComputerUptime - to better handle Kerberos errors sometimes encountered when connecting to systems
-* updated Get-DriveStat - to better handle Kerberos errors sometimes encountered when connecting to systems
-* updated Get-LastDayInMonth - added -Date parameter and parameter set names
-* updated Get-MachineType - to better handle Kerberos errors sometimes encountered when connecting to systems
-* updated Get-ProcessUser - to better handle Kerberos errors sometimes encountered when connecting to systems
-* updated Get-ServiceUser - to better handle Kerberos errors sometimes encountered when connecting to systems
-* updated Merge-Object - aliased to 'Union-Object' for backward compatibility
-* updated New-InputBoxSecureString - added module custom icon
-* updated New-MessageBox - renamed from New-Popup (aliased for backward compatibility). added functionality for default button
-* updated New-RandomPassword - added -TitleCase, -RandomCase, -Web. Changed default parameter set name to ReadableTitleCase
-* updated Optimize-SqlIndexFragmentation - to handle error condition of index not having page level locking on. If that error is encountered it enables lock, optimizes index, then disables lock
-* updated Set-Display - added -Brightness to set the brightness of the display
-* updated Start-ADReplication - added -ThrottleLimit so as to not over saturate the local computer
-* updated Test-ConnectionAsync - added -Full switch and made default output brief, slight formatting change in output
-* updated Write-StringArray - added -ExcludeDollarSign to make it easier to create input for *.psd1 files
+### 2.2.11
+* added format files for result sets containing more than 4 columns
+* added Pester test file templates for functions. Only a handful have been populated with real tests. This will be coming in future release
+* updated .\Resources\WordList.txt and removed over 200 offensive words
+* added Add-FileAttribute - to manipulate 'ReadOnly', 'Hidden', 'System', 'Archive' file attributes
+* added Convert-Int64ToUint64 - to properly return Reg_QWord values from the registry
+* added Get-AutoRun.inf - to get the values from the hidden/system file found at the root of a drive letter: icon and label
+* added Get-Desktop.ini - to get the values from the hidden/system file found in a folder: folder type, infotip (hover info), icon
+* added Get-RebootHistory - to return a history of reboots, includes custom type for formatting
+* added New-VirtualHardDisk - to create local .vhd, need to run at elevated prompt
+* added Read-HostPause - to mimic the PAUSE command in cmd.exe where you only need to press a key to continue, not just the Enter key
+* added Remove-FileAttribute - to manipulate 'ReadOnly', 'Hidden', 'System', 'Archive' file attributes
+* added Resolve-PathForce - returns explicit path to single file/folder even if it doesn't exist
+* added Set-AutoRun.inf - to set the values from the hidden/system file found at the root of a drive letter: icon and label
+* added Set-Desktop.ini - to set the values from the hidden/system file found in a folder: folder type, infotip (hover info), icon
+* added Set-FileAttribute - to manipulate 'ReadOnly', 'Hidden', 'System', 'Archive' file attributes
+* removed Eexit - really belongs in the $profile of my computer and not here
+* renamed Get-FsRight - from original Show-FsRight, provided alias as Show-FsRight, changed += to ArrayList, left justify name
+* renamed Get-NamedColor - from original name Show-NamedColor to be more in line with PowerShell standards, added -Full parameter and formatting
+* updated Convert-HexToRGB - changed delimiter from ',' to ', ' so exports to CSV are read properly by Excel
+* updated ConvertFrom-FsRight - changed reference from Show-FsRight to Get-FsRight
+* updated ConvertTo-Hex - changed hex value to be upper case to conform more with standard representation
+* updated Expand-IPv6 - added 'ERROR: ' to beginning of throw statement
+* updated Expand-Tab - changed $InputString to position 0, also value from pipeline by name
+* updated Export-FontSample - changed to use System.Collections.Arraylist, default $Path to (Join-Path -Path $env:TEMP -ChildPath 'FontSample.htm'), no longer HTML tokenizing -Text
+* updated Get-Assoc - added /d argument to cmd.exe to bypass any AutoRun setting in registry
+* updated Get-ConsoleColor - alignment was right justified, fixed by converting color enum ToString()
+* updated Get-DriveState - to use custom types for formatting
+* updated Get-ExecutableForFile - to resolve path names to explicit path if passed a relative one
+* updated Get-FType - added /d argument to cmd.exe to bypass any AutoRun setting in registry
+* updated Get-IPv4Network - corrected comment help, set default for subnet mask
+* updated Get-LongName - added 'ERROR: ' to beginning of throw statement
+* updated Get-NamedColor - addressed issue with named colors not appearing
+* updated Get-PrintableAscii - to use custom type for formatting
+* updated Get-RegExpandString - added 'ERROR: ' to beginning of throw statement
+* updated Get-RegistryValue - changed when retrieving DWord value performs Convert-Int32ToUint32 on the returned value, calling subfunctions with -Verbose:$false, minor typos
+* updated Get-ShortName - added 'ERROR: ' to beginning of throw statement
+* updated Get-VssAdminListWriters - to use custom type for formatting
+* updated Get-WordCount - changed property names, sorted by frequency descending, then word ascending
+* updated New-MessageBox - fixed issue with -AsString and a timeout not reporting correctly
+* updated New-RandomPassword - added NumeralCount and SymbolCount parameters to increase complexity
+* updated New-Screenshot - added 'ERROR: ' to beginning of throw statement
+* updated New-Shortcut - resolved path to .lnk as it must be explicit path, used resolve-pathforce to resolve non-existent file
+* updated Set-PrivateProfileComment - change += to System.Collections.Arraylist, changed positional parameters
+* updated Split-CanonicalName - added alias of CN to CanonicalName
+* updated Split-DistinguishedName - added alias of DN to DistinguishedName
+* updated Write-StringHash - change += to System.Collections.Arraylist for $ReturnVal
+* updated Write-TextMnu - changed temporary file handling, fixed options passed from pipeline problem, using Set-Clipboard vs clip.exe, padded menu selection option to 2 characters
 
-### 2.2.6
-* added Get-MyLocalLogonTime
-* added Get-RelativePath
-* added Use-Stopwatch
-* updated Get-Shortcut
-* updated New-Shortcut
-* updated Start-ADReplication
-
-### 2.2.5
-* added Compare-ObjectSetComplement
-* added Compare-ObjectSetDifference
-* added Compare-ObjectSetIntersection
-* added Compare-ObjectSetUnion
-* added Get-ProcessUser
-* added Get-ScheduledTaskUser
-* added Get-ServiceUser
-* added Test-Set
-* updated Optimize-SqlIndexFragmentation
-* updated Optimize-SqlStoredProcedure
-
-### 2.2.4
-* added Get-SqlDatabase
-* added Get-SqlIndexFragmentation
-* added Get-SqlStoredProcedure
-* added Optimize-SqlIndexFragmentation
-* added Optimize-SqlStoredProcedure
-
-### 2.3.3
-* added Invoke-CountdownTimer to implement a count down timer. Accurate to within several seconds
-
-### 2.2.2
-* Changed to SemVer versioning, 3 positions Major#.Minor#.Build#
-* added Convert-Int32ToUint32 to aid in converting 32 bitmasks which are interpreted as negative int32 numbers, returned from things like (Get-Acl -Path $pwd).Access.FileSystemRights
-* added Format-ReverseToken to take a tokenized string like 'monster.google.com' and convert it to 'com.google.monster'
-* added New-InputBoxSecureString which will prompt for value and return a secure string. Can optionally verify input, and specify labels for input box(es)
-* renamed Get-FolderName from Get-Folder to not conflict with Vmware module. Aliased to Get-Folder for backward compatibility
-* renamed Get-SaveFileName from Get-SaveFile to be more consistent across file/folder functions. Aliased to Get-SaveFile for backward compatibility
-* updated Convert-RGBToHex to better handle color specifications
-* updated ConvertTo-DateTime because of logic error in handling Unix datetime strings
-* updated Get-BashPath to include switch so as to not resolve path to existing path on the system
-* updated Get-FileWithLeadingSpace to just produce the fullname of the files
-* updated Get-Fortune and added -Speak switch
-* updated Get-NTFSPermission to use Convert-Int32ToUint32 for certain filesystem rights, like -1610612736 corresponds to GenericExecute,GenericRead and previously the negative number would throw an error as it is really a 32 bitmask and not an int32
-* updated Test-Port so that the results are given in the Process block and not wait until the End block
- that the results are given in the Process block and not wait until the End block
+### 2.2.10
+* added Get-AppEventsSound - determines sounds configured for Windows events
+* added Get-ConsoleWindowSize - returns both the window size and buffer size of current console window
+* added Get-DiskType - returns the type of disk and type of bus for a given computer(s) local disk(s)
+* added Get-FileSizeOnDisk - returns actual disk usage when NTFS compression is enabled for file(s)
+* added Get-IpV4Network - to determine network given IP address and subnet mask
+* added Get-StringHash - to send a string, or array of strings through a hashing function
+* added Set-EOLTerminator - to convert a text file to either Unix, Mac, or Windows EOL characters
+* added Set-FileEncoding - to set the file encoding on a text file
+* added Set-WindowState - to minimize/maximize a window
+* added Test-CSVFormat - determine if number of fields match header row
+* removed Get-MD5Sum - functionality already present in Get-FileHash available in Microsoft.PowerShell.Utility module
+* updated ConvertFrom-Base64 - added $EncodingType to provide support for Ascii, UTF32, etc. encoding
+* updated ConvertTo-Base64 - added $EncodingType to provide support for Ascii, UTF32, etc. encoding
+* updated Get-CaesarCipher - to allow negative rotation
+* updated Get-FileEncoding - allow processing of multiple files, output now shows both encoding and fullname of file
+* updated Get-PrivateProfileSection - fixed error when ini value contains a backslash '\'
+* updated Get-SqlIndexFragmentation - removed indentation on SQL here string
+* updated Invoke-Beep - added Start-Sleep in -StarWars section
+* updated Invoke-SoundPlayer - performed a .Dispose() as part of cleanup
+* updated New-InputBoxSecureString - correct equality test to be case sensitive
 '@
 
             # Flag to indicate whether the module requires explicit user acceptance for install/update/save

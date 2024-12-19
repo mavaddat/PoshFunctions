@@ -26,6 +26,8 @@ function Convert-HexToRGB {
     808080  128   128  128 128,128,128
     ffffff  255   255  255 255,255,255
     #abab10 171   171   16 171,171,16
+.NOTES
+    Updated to change delimiter from ',' to ', ' so as to properly export to CSV and then read into Excel
 #>
 
     #region Parameter
@@ -39,7 +41,7 @@ function Convert-HexToRGB {
     #endregion Parameter
 
     begin {
-        Write-Verbose -Message "Starting $($MyInvocation.Mycommand)"
+        Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
     }
 
     process {
@@ -56,10 +58,10 @@ function Convert-HexToRGB {
                         Red       = $Red
                         Green     = $Green
                         Blue      = $Blue
-                        RgbString = @($Red, $Green, $Blue) -join ','
+                        RgbString = @($Red, $Green, $Blue) -join ', '
                     })
                 } else {
-                    Write-Output -InputObject ( @($Red, $Green, $Blue) -join ',' )
+                    Write-Output -InputObject ( @($Red, $Green, $Blue) -join ', ' )
                 }
             } else {
                 Write-Error -Message "$curHex is not a valid Hex color string"
@@ -69,6 +71,6 @@ function Convert-HexToRGB {
     }
 
     end {
-        Write-Verbose -Message "Ending $($MyInvocation.Mycommand)"
+        Write-Verbose -Message "Ending [$($MyInvocation.Mycommand)]"
     }
 }

@@ -3,7 +3,7 @@ function New-InputBoxSecureString {
 .SYNOPSIS
     Provides a GUI text entry box to enter a string and convert it to a securestring
 .DESCRIPTION
-    Provides a GUI text entry box to enter a string and convert it to a securestring. Function validates input and provides an input mask, both of which can be disabled.
+    Provides a GUI text entry box to enter a string and convert it to a securestring. Function validates input and provides an input mask, both of which can be disabled. Optionally can output a plain text string with the $OutputAsPlainText parameter
 .PARAMETER Title
     The title of the form. Defaults to 'New SecureString'
 .PARAMETER DisableValidation
@@ -16,6 +16,11 @@ function New-InputBoxSecureString {
     The label block of the entry text input box. Defaults to 'Please enter the value'
 .PARAMETER ValidateBoxLabel
     The label block of the entry text input box. Defaults to 'Please re-enter the value'
+.PARAMETER OutputAsPlainText
+    Switch that will output plain text as opposed to a secure string
+    You would use this if you wanted validation logic but wanted the output to be a string
+.PARAMETER Force
+    Switch that will determine behavior if -OutputAsPlainText is specified
 .EXAMPLE
     $SecureString = New-InputBoxSecureString
 
@@ -23,51 +28,42 @@ function New-InputBoxSecureString {
 .EXAMPLE
     $SecureString = New-InputBoxSecureString -Verbose
     VERBOSE: Starting [New-InputBoxSecureString]
-    VERBOSE: Title [New SecureString]
-    VERBOSE: Description [Please enter the plain text you wish to be converted to a securestring]
-    VERBOSE: EntryBoxLabel [Please enter the value]
-    VERBOSE: ValidateBoxLabel [Please re-enter the value]
+    VERBOSE: Title [New SecureString], Description [Please enter the plain text you wish to be converted to a securestring]
+    VERBOSE: EntryBoxLabel [Please enter the value], ValidateBoxLabel [Please re-enter the value]
     VERBOSE: DisableValidation [False], DisableInputMask [False]
-    System.Security.SecureString
+    VERBOSE: OutputAsPlainText [False], Force [False]
     VERBOSE: Ending [New-InputBoxSecureString]
 
     Will display a form with 2 text entry fields that are masked with '*', and will verify the values match before converting to a securestring
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding()]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '')]
     param (
-        [Parameter(ParameterSetName = 'Default')]
-        [Parameter(ParameterSetName = 'Validate')]
         [string] $Title = 'New SecureString',
 
-        [Parameter(ParameterSetName = 'Validate')]
         [switch] $DisableValidation,
 
-        [Parameter(ParameterSetName = 'Default')]
-        [Parameter(ParameterSetName = 'Validate')]
         [switch] $DisableInputMask,
 
-        [Parameter(ParameterSetName = 'Default')]
-        [Parameter(ParameterSetName = 'Validate')]
         [string] $Description = 'Please enter the plain text you wish to be converted to a securestring',
 
-        [Parameter(ParameterSetName = 'Default')]
-        [Parameter(ParameterSetName = 'Validate')]
         [string] $EntryBoxLabel = 'Please enter the value',
 
-        [Parameter(ParameterSetName = 'Validate')]
-        [string] $ValidateBoxLabel = 'Please re-enter the value'
+        [string] $ValidateBoxLabel = 'Please re-enter the value',
+
+        [switch] $OutputAsPlainText,
+
+        [switch] $Force
     )
 
     begin {
         Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
-        Write-Verbose -Message "Title [$Title]"
-        Write-Verbose -Message "Description [$Description]"
-        Write-Verbose -Message "EntryBoxLabel [$EntryBoxLabel]"
-        Write-Verbose -Message "ValidateBoxLabel [$ValidateBoxLabel]"
+        Write-Verbose -Message "Title [$Title], Description [$Description]"
+        Write-Verbose -Message "EntryBoxLabel [$EntryBoxLabel], ValidateBoxLabel [$ValidateBoxLabel]"
         Write-Verbose -Message "DisableValidation [$DisableValidation], DisableInputMask [$DisableInputMask]"
+        Write-Verbose -Message "OutputAsPlainText [$OutputAsPlainText], Force [$Force]"
         Add-Type -AssemblyName 'System.Windows.Forms'
         Add-Type -AssemblyName 'System.Drawing'
 
@@ -157,7 +153,7 @@ function New-InputBoxSecureString {
         $ValidateEntry.AutoSizeMode = 'GrowOnly'
         $ValidateEntry.Font = [System.Drawing.SystemFonts]::get_MessageBoxFont()
         if ($Script:ModulePath) {
-            $ValidateEntry.Icon = (Join-Path -Path $Script:ModulePath -ChildPath 'Resources\PoshFunctions.ico')
+            $ValidateEntry.Icon = $Script:IconFile
         }
         #endregion
     }
@@ -167,7 +163,8 @@ function New-InputBoxSecureString {
         $Result = $ValidateEntry.ShowDialog()
         if ($Result -eq 'OK') {
             if (-not $DisableValidation) {
-                if ($ValidateBox.Text -eq $EntryBox.Text) {
+                # Previously this erroneously had -eq operator which was case insensitive
+                if ($ValidateBox.Text -ceq $EntryBox.Text) {
                     if ($EntryBox.Text.Length -eq 0) {
                         Write-Error -Message 'Must enter a string'
                         break
@@ -182,7 +179,27 @@ function New-InputBoxSecureString {
                         break
                     }
             }
-            $ReturnVal = ConvertTo-SecureString -String $EntryBox.Text -AsPlainText -Force
+            if ($OutputAsPlainText) {
+                if ($Force) {
+                    $ReturnVal = $EntryBox.Text
+                } else {
+                    $MsgBoxParam = @{
+                        Message = "You specified -OutputAsPlaintext but you didn't specify the -Force parameter. Do you want to force the output to plain text?"
+                        Title = 'Force output as plain text?'
+                        Buttons = 'YesNo'
+                        DefaultButton = 'Button2'
+                        AsString = $true
+                    }
+                    $Answer = New-MessageBox @MsgBoxParam
+                    if ($Answer -eq 'Yes') {
+                        $ReturnVal = $EntryBox.Text
+                    } else {
+                        $ReturnVal = $null
+                    }
+                }
+            } else {
+                $ReturnVal = ConvertTo-SecureString -String $EntryBox.Text -AsPlainText -Force
+            }
             Write-Output -InputObject $ReturnVal
         }
     }

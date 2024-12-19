@@ -49,11 +49,9 @@ function Get-ComputerUptime {
     Put in error checking around Get-CimInstance to handle Kerberos errors.
 #>
 
-# todo - track down warning message on encoding, update help
-
     #region Parameter
     [CmdletBinding(ConfirmImpact = 'Low')]
-    [alias('Get-LastReboot')]
+    [alias('Get-LastReboot')] #FunctionAlias
     [OutputType('psobject')]
     Param(
         [switch] $Since,
@@ -62,7 +60,9 @@ function Get-ComputerUptime {
         [Alias('ComputerName', 'CN', 'Server')]
         [string[]] $Name = $env:COMPUTERNAME,
 
-        [switch] $IncludeComputerName
+        [switch] $IncludeComputerName,
+
+        [System.Management.Automation.PSCredential] $Credential
     )
     #endregion Parameter
 
@@ -79,10 +79,19 @@ function Get-ComputerUptime {
         foreach ($CurName in $Name) {
             Write-Verbose -Message "Processing [$CurName]"
             try {
-                $LastBootUpTime = (Get-CimInstance -ClassName Win32_OperatingSystem -ComputerName $CurName -ErrorAction Stop -Verbose:$false).LastBootUpTime
+                if ($Script:Credential) {
+                    $CimSession = New-CimSession -ComputerName $CurName -Credential $Script:Credential
+                    $LastBootUpTime = (Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $CimSession -ErrorAction Stop -Verbose:$false).LastBootUpTime
+                } else {
+                    $LastBootUpTime = (Get-CimInstance -ClassName Win32_OperatingSystem -ComputerName $CurName -ErrorAction Stop -Verbose:$false).LastBootUpTime
+                }
             } catch {
                 try {
-                   $CimSession = New-CimSession -ComputerName $CurName -SessionOption $CimOption
+                    if ($Script:Credential) {
+                        $CimSession = New-CimSession -ComputerName $CurName -SessionOption $CimOption -Credential $Script:Credential
+                    } else {
+                        $CimSession = New-CimSession -ComputerName $CurName -SessionOption $CimOption
+                    }
                     $LastBootUpTime = (Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $CimSession -ErrorAction Stop -Verbose:$false).LastBootUpTime
                     $CimSession.Close()
                     $CimSession.Dispose()

@@ -16,6 +16,7 @@ Function Test-IsNumeric {
     Test-IsCapsLock -Verbose
 #>
 
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments','')]
     [CmdletBinding(ConfirmImpact='None')]
     [OutputType('bool')]
     Param (
@@ -41,7 +42,7 @@ Function Test-IsNumeric {
                 }
             } else {
                 try {
-                    0 + $n | Out-Null
+                    [double] $tmp = 0 + $n
                     if ($IncludeInput) {
                         New-Object -TypeName psobject -Property ([ordered] @{Input="$n";Result=$true})
                     } else {

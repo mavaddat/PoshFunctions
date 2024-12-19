@@ -4,14 +4,14 @@ function Get-DisplayBrightness {
     To get the current brightness of the display
 .DESCRIPTION
     To get the current brightness of the display
-.PARAMETER Full
+.PARAMETER IncludeInput
     Switch to display the full WMI path to the current value
 .EXAMPLE
     Get-DisplayBrightness
 
     60
 .EXAMPLE
-    Get-DisplayBrightness -Full
+    Get-DisplayBrightness -IncludeInput
 
     Namespace Class                CurrentBrightness
     --------- -----                -----------------
@@ -28,10 +28,8 @@ function Get-DisplayBrightness {
     #region parameter
     [CmdletBinding()]
     [OutputType('int')]
-    Param
-    (
-        [switch] $Full
-
+    param (
+        [switch] $IncludeInput
     )
     #endregion parameter
 
@@ -41,7 +39,7 @@ function Get-DisplayBrightness {
 
     process {
         $Cim = Get-CimInstance -Namespace 'root/WMI' -Class 'WmiMonitorBrightness'
-        if ($Full) {
+        if ($IncludeInput) {
             New-Object psobject -Prop ([ordered] @{
                 Namespace = 'root/WMI'
                 Class = 'WmiMonitorBrightness'
