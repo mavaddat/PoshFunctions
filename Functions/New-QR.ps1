@@ -111,6 +111,8 @@ function New-QR {
     http://code.google.com/apis/chart/infographics/docs/qr_codes.html
 #>
 
+# todo deprecate function
+
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'low')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSShouldProcess', '')]
     param(

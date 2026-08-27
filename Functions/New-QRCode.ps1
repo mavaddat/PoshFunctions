@@ -47,6 +47,8 @@ function New-QRCode {
 #>
 
     # todo - add -IncludeInput and format file
+    # todo fix -Path parameter not saving to that file
+
     [CmdletBinding()]
     [OutputType([System.IO.FileInfo])]
     param (
@@ -73,6 +75,9 @@ function New-QRCode {
     )
 
     begin {
+        if (-not $Path) {
+            $Path = (New-TemporaryFileWithExtension -Extension ('.' + $Format))
+        }
         Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
         $OldInformationPreference = $InformationPreference
         $InformationPreference = 'Continue'
@@ -87,11 +92,12 @@ function New-QRCode {
             '&margin=' + $Margin +
             '&format=' + $Format
         )
-
+<#
         if (-not $Script:Path) {
             $Path = New-TemporaryFileWithExtension -Extension ('.' + $Format)
             Remove-Item -Path $Path
         }
+ #>
     }
 
     process {
@@ -100,8 +106,8 @@ function New-QRCode {
             break
         }
         Write-Information -MessageData "[INFORMATION] New QR code written to [$Path]"
-        Invoke-WebRequest -Uri $URL -OutFile $Path
-        Get-Item -Path $Path
+        Invoke-WebRequest -Uri $URL -OutFile $Path | Out-Null
+        #Get-Item -Path $Path
 
         if ($Show) {
             Invoke-Item -Path $Path

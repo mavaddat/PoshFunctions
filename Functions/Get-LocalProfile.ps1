@@ -28,7 +28,7 @@ function Get-LocalProfile {
             $CurSid = Split-Path -Path $_.Name -Leaf
             [pscustomobject]@{
                 SID         = $CurSid
-                Account     = Resolve-Sid -SidString $CurSid
+                Account     = Resolve-Sid -SID $CurSid
                 ProfilePath = (Get-ItemProperty -Path $_.PSPath).ProfileImagePath
             }
         }
