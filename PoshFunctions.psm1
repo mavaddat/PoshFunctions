@@ -6,6 +6,8 @@ Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Web
+Add-Type -AssemblyName PresentationCore
+Add-Type -AssemblyName System.DirectoryServices.AccountManagement
 
 $Script:ModulePath = Split-Path -Parent -Path $MyInvocation.MyCommand.Path
 

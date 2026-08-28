@@ -4,7 +4,7 @@
     RootModule        = 'PoshFunctions.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.2.13'
+    ModuleVersion     = '2.2.14'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -22,7 +22,7 @@
     Copyright         = '(c) 2025 Bill Riedy. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'A curated collection of over 250 PowerShell functions. Many functions written by me. Others are attributed wherever possible.'
+    Description       = 'A curated collection of over 250 PowerShell functions. Many functions written by me. Others are attributed wherever possible. Starting additional work on 11/25/2025'
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.0'
@@ -246,6 +246,10 @@
             # ReleaseNotes of this module
             ReleaseNotes = @'
 For full release notes see .\Resources\ReleaseNotes.txt
+### 2.2.14
+* deleted New-QR - website this relies on no longer exists
+# updated New-QRCode - updated logic about -Path so that if you specify it then that file will be created
+
 ### 2.2.12
 * added about_PoshFunctions for an overview of the module
 * updated PoshFunctions.psm1 - added $Script:IconFile variable
