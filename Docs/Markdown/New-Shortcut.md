@@ -1,4 +1,4 @@
----
+﻿---
 external help file: PoshFunctions-help.xml
 Module Name: PoshFunctions
 online version: http://code.google.com/apis/chart/infographics/docs/qr_codes.html
@@ -288,6 +288,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 * Updated -WindowStyle to accept readable content of 'Normal', 'Maximized', 'Minimized' and write correct integer values to shortcut
 * Updated -IconLocation renamed from -Icon to match the output of Get-Shortcut
 * Updated -RunAsAdmin renamed from -Admin and altered code to make more consistent
+* Updated - Added login that if -RunAsAdmin is specified to check if running as Administrator. If not throw an error.
 
 Main logic inspired by:
 https://gallery.technet.microsoft.com/scriptcenter/New-Shortcut-4d6fb3d8

@@ -19,7 +19,7 @@
     CompanyName       = ''
 
     # Copyright statement for this module
-    Copyright         = '(c) 2025 Bill Riedy. All rights reserved.'
+    Copyright         = '(c) 2026 Bill Riedy. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'A curated collection of over 250 PowerShell functions. Many functions written by me. Others are attributed wherever possible. Starting additional work on 11/25/2025'
@@ -132,45 +132,46 @@
         'Get-NTFSPermission', 'Get-NtpDate', 'Get-Power', 'Get-PrintableAscii',
         'Get-PrivateProfileComment', 'Get-PrivateProfileSection',
         'Get-PrivateProfileSectionNames', 'Get-PrivateProfileString',
-        'Get-ProcessUser', 'Get-PSWho', 'Get-RandomDate', 'Get-RandomHexDigit',
-        'Get-RandomMacAddress', 'Get-RebootHistory', 'Get-RegExpandString',
-        'Get-RegistryValue', 'Get-RelativePath', 'Get-Round', 'Get-SaveFileName',
-        'Get-ScheduledTaskUser', 'Get-ServiceUser', 'Get-Shortcut', 'Get-ShortName',
-        'Get-SID', 'Get-SpeakerVolume', 'Get-SpecialFolder', 'Get-SqlDatabase',
-        'Get-SqlIndexFragmentation', 'Get-SqlStoredProcedure', 'Get-StaticProperty',
-        'Get-String', 'Get-StringHash', 'Get-SubnetMaskIPv4', 'Get-TruncatedDate',
-        'Get-Type', 'Get-TypeAccelerator', 'Get-UrlContent', 'Get-VssVolume',
-        'Get-VssWriter', 'Get-VssWriterToService', 'Get-WordCount', 'Get-WordList',
-        'grep', 'Invoke-Beep', 'Invoke-CountdownTimer', 'Invoke-SoundPlayer',
-        'Invoke-Speak', 'Join-Object', 'Lock-Workstation', 'Measure-Char',
-        'Merge-Object', 'mklink', 'Move-ToRecycleBin', 'New-ColorPicker',
-        'New-Credential', 'New-DatePicker', 'New-FontPicker', 'New-InputBox',
-        'New-InputBoxSecureString', 'New-LocalAdmin', 'New-MailToURI',
+        'Get-ProcessUser', 'Get-PSWho', 'Get-QuserSession', 'Get-RandomDate',
+        'Get-RandomHexDigit', 'Get-RandomMacAddress', 'Get-RebootHistory',
+        'Get-RegExpandString', 'Get-RegistryValue', 'Get-RelativePath', 'Get-Round',
+        'Get-SaveFileName', 'Get-ScheduledTaskUser', 'Get-ServiceUser', 'Get-Shortcut',
+        'Get-ShortName', 'Get-SID', 'Get-SpeakerVolume', 'Get-SpecialFolder',
+        'Get-SqlDatabase', 'Get-SqlIndexFragmentation', 'Get-SqlStoredProcedure',
+        'Get-StaticProperty', 'Get-String', 'Get-StringHash', 'Get-SubnetMaskIPv4',
+        'Get-TruncatedDate', 'Get-Type', 'Get-TypeAccelerator', 'Get-UrlContent',
+        'Get-VssVolume', 'Get-VssWriter', 'Get-VssWriterToService', 'Get-WordCount',
+        'Get-WordList', 'grep', 'Invoke-Beep', 'Invoke-CountdownTimer',
+        'Invoke-SoundPlayer', 'Invoke-Speak', 'Join-Object', 'Lock-Workstation',
+        'Measure-Char', 'Merge-Object', 'mklink', 'Move-ToRecycleBin',
+        'New-ColorPicker', 'New-Credential', 'New-DatePicker', 'New-FontPicker',
+        'New-InputBox', 'New-InputBoxSecureString', 'New-LocalAdmin', 'New-MailToURI',
         'New-MessageBox', 'New-PFDateFormat', 'New-QR', 'New-QRCode',
         'New-RandomPassword', 'New-Screenshot', 'New-Shortcut', 'New-SmsUri',
         'New-TelephoneUri', 'New-TemporaryFileWithExtension', 'New-VirtualHardDisk',
         'New-WifiUri', 'Optimize-SqlIndexFragmentation', 'Optimize-SqlStoredProcedure',
         'Out-PDFToPrinter', 'Read-HostPause', 'Read-HostWithDefault',
         'Remove-BlankOrComment', 'Remove-EmptyProperty', 'Remove-FileAttribute',
-        'Remove-OldFiles', 'Remove-QuotesFromCsv', 'Remove-TeamsCache',
-        'Remove-TemporaryFile', 'Remove-Trailing', 'Reset-Desktop', 'Resolve-FQDN',
-        'Resolve-HostName', 'Resolve-PathForce', 'Resolve-SID', 'sed',
-        'Set-AutoRun.inf', 'Set-Capslock', 'Set-Desktop.ini', 'Set-Display',
-        'Set-EOLTerminator', 'Set-FileEncoding', 'Set-FileTime', 'Set-Numlock',
-        'Set-PrivateProfileComment', 'Set-PrivateProfileString', 'Set-Scrolllock',
-        'Set-SpeakerMute', 'Set-SpeakerVolume', 'Set-Type', 'Set-WindowState',
-        'Set-WindowStyle', 'Show-Calendar', 'Show-FileAttribute', 'Show-Object',
-        'Show-Progress', 'Split-CanonicalName', 'Split-DistinguishedName',
-        'Split-Line', 'Start-ADReplication', 'Start-RecordSession',
-        'Stop-RecordSession', 'Switch-Mute', 'Test-ConnectionAsync', 'Test-CSVFormat',
-        'Test-IsAdmin', 'Test-IsCapsLock', 'Test-IsDate', 'Test-IsFileLocked',
-        'Test-IsHexString', 'Test-IsLocalIPv4', 'Test-IsNull', 'Test-IsNumeric',
-        'Test-IsNumLock', 'Test-IsScrollLock', 'Test-IsSpeakerMute',
-        'Test-IsValidEmailAddress', 'Test-IsValidIPv4', 'Test-IsValidIPv6',
-        'Test-MultipleBool', 'Test-Network', 'Test-NtpDateVsNow', 'Test-Password',
-        'Test-PasswordComplexity', 'Test-Port', 'Test-Set', 'Update-ExplorerIcon',
-        'Use-Stopwatch', 'Write-AnsiString', 'Write-SelectStatement',
-        'Write-StringArray', 'Write-StringHash', 'Write-TextMenu' )
+        'Remove-OldFiles', 'Remove-QuotesFromCsv', 'Remove-QuserSession',
+        'Remove-TeamsCache', 'Remove-TemporaryFile', 'Remove-Trailing',
+        'Reset-Desktop', 'Resolve-FQDN', 'Resolve-HostName', 'Resolve-PathForce',
+        'Resolve-SID', 'sed', 'Set-AutoRun.inf', 'Set-Capslock', 'Set-Desktop.ini',
+        'Set-Display', 'Set-EOLTerminator', 'Set-FileEncoding', 'Set-FileTime',
+        'Set-Numlock', 'Set-PrivateProfileComment', 'Set-PrivateProfileString',
+        'Set-Scrolllock', 'Set-SpeakerMute', 'Set-SpeakerVolume', 'Set-Type',
+        'Set-WindowState', 'Set-WindowStyle', 'Show-Calendar', 'Show-FileAttribute',
+        'Show-Object', 'Show-Progress', 'Split-CanonicalName',
+        'Split-DistinguishedName', 'Split-FQDN', 'Split-Line', 'Start-ADReplication',
+        'Start-RecordSession', 'Stop-RecordSession', 'Switch-Mute',
+        'Test-ConnectionAsync', 'Test-CSVFormat', 'Test-IsAdmin', 'Test-IsCapsLock',
+        'Test-IsDate', 'Test-IsFileLocked', 'Test-IsHexString', 'Test-IsLocalIPv4',
+        'Test-IsNull', 'Test-IsNumeric', 'Test-IsNumLock', 'Test-IsScrollLock',
+        'Test-IsSpeakerMute', 'Test-IsValidEmailAddress', 'Test-IsValidIPv4',
+        'Test-IsValidIPv6', 'Test-MultipleBool', 'Test-Network', 'Test-NtpDateVsNow',
+        'Test-Password', 'Test-PasswordComplexity', 'Test-Port', 'Test-Set',
+        'Update-ExplorerIcon', 'Use-Stopwatch', 'Write-AnsiString',
+        'Write-SelectStatement', 'Write-StringArray', 'Write-StringHash',
+        'Write-TextMenu' )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     #CmdletsToExport = '*'
@@ -247,8 +248,12 @@
             ReleaseNotes = @'
 For full release notes see .\Resources\ReleaseNotes.txt
 ### 2.2.14
+* added Get-QuserSession - a qwinsta.exe wrapper
+* added Remove-QuserSession - a rwinsta.exe wrapper, uses Get-QuserSession to validate input
+* added Split-FQDN - to split a FQDN by '.' and return either -Leaf, -Parent, or -Token
 * deleted New-QR - website this relies on no longer exists
-# updated New-QRCode - updated logic about -Path so that if you specify it then that file will be created
+* updated New-QRCode - updated logic about -Path so that if you specify it then that file will be created
+* updated New-Shortcut - added logic that if you specify -RunAsAdmin that it is being executed from an elevated prompt
 
 ### 2.2.12
 * added about_PoshFunctions for an overview of the module

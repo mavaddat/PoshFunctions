@@ -56,20 +56,34 @@ online version:
 schema: 2.0.0</h2>
 <h1>Set-FileTime</h1>
 <h2>SYNOPSIS</h2>
+<p>A function to change the file time properties: LastWriteTime, LastAccessTime, CreationTime</p>
 <h2>SYNTAX</h2>
 <pre><code>Set-FileTime -Path &lt;String[]&gt; [-CreationTime &lt;DateTime&gt;] [-LastAccessTime &lt;DateTime&gt;]
  [-LastWriteTime &lt;DateTime&gt;] [&lt;CommonParameters&gt;]
 </code></pre>
 <h2>DESCRIPTION</h2>
-<p>{{ Fill in the Description }}</p>
+<p>A function to change the file time properties: LastWriteTime, LastAccessTime, CreationTime</p>
 <h2>EXAMPLES</h2>
-<h3>Example 1</h3>
-<pre><code class="language-powershell">PS C:\&gt; {{ Add example code here }}
+<h3>EXAMPLE 1</h3>
+<pre><code>Test-MyTestFunction -Verbose
 </code></pre>
-<p>{{ Add example description here }}</p>
+<p>Explanation of the function or its result.
+You can include multiple examples with additional .EXAMPLE lines</p>
 <h2>PARAMETERS</h2>
+<h3>-Path</h3>
+<p>Path to a file</p>
+<pre><code class="language-yaml">Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+</code></pre>
 <h3>-CreationTime</h3>
-<p>{{ Fill CreationTime Description }}</p>
+<p>Date to set the CreationTime property to</p>
 <pre><code class="language-yaml">Type: DateTime
 Parameter Sets: (All)
 Aliases:
@@ -81,7 +95,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 </code></pre>
 <h3>-LastAccessTime</h3>
-<p>{{ Fill LastAccessTime Description }}</p>
+<p>Date to set the LastAccessTime property to</p>
 <pre><code class="language-yaml">Type: DateTime
 Parameter Sets: (All)
 Aliases:
@@ -93,7 +107,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 </code></pre>
 <h3>-LastWriteTime</h3>
-<p>{{ Fill LastWriteTime Description }}</p>
+<p>Date to set the LastWriteTime property to</p>
 <pre><code class="language-yaml">Type: DateTime
 Parameter Sets: (All)
 Aliases:
@@ -104,24 +118,10 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 </code></pre>
-<h3>-Path</h3>
-<p>{{ Fill Path Description }}</p>
-<pre><code class="language-yaml">Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-</code></pre>
 <h3>CommonParameters</h3>
 <p>This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see <a href="http://go.microsoft.com/fwlink/?LinkID=113216">about_CommonParameters</a>.</p>
 <h2>INPUTS</h2>
-<h3>System.String[]</h3>
 <h2>OUTPUTS</h2>
-<h3>System.Object</h3>
 <h2>NOTES</h2>
 <h2>RELATED LINKS</h2>
 

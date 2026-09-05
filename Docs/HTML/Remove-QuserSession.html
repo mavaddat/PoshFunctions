@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>---</title>
+    <link rel="stylesheet" type="text/css" href="styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="styles/vs.min.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/agate.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/far.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/tomorrow-night-blue.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/vs2015.min.css" /> -->
+    <script src="js/highlight.min.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.highlightAll();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="katex/katex.min.css" />
+    <script defer src="katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+          // ]]>
+    </script>
+    <!-- -->
+</head>
+<body>
+    <hr />
+<h2>external help file: PoshFunctions-help.xml
+Module Name: PoshFunctions
+online version:
+schema: 2.0.0</h2>
+<h1>Remove-QuserSession</h1>
+<h2>SYNOPSIS</h2>
+<p>Resets a user session via rwinsta.exe, resolved through Get-QuserSession.</p>
+<h2>SYNTAX</h2>
+<h3>UserName (Default)</h3>
+<pre><code>Remove-QuserSession [-UserName] &lt;String&gt; [-ComputerName &lt;String&gt;] [-Force] [-WhatIf] [-Confirm]
+ [&lt;CommonParameters&gt;]
+</code></pre>
+<h3>SessionName</h3>
+<pre><code>Remove-QuserSession -SessionName &lt;String&gt; [-ComputerName &lt;String&gt;] [-Force] [-WhatIf] [-Confirm]
+ [&lt;CommonParameters&gt;]
+</code></pre>
+<h3>Id</h3>
+<pre><code>Remove-QuserSession -Id &lt;Int32&gt; [-ComputerName &lt;String&gt;] [-Force] [-WhatIf] [-Confirm] [&lt;CommonParameters&gt;]
+</code></pre>
+<h2>DESCRIPTION</h2>
+<p>Looks up a matching session with Get-QuserSession (by UserName, SessionName, or Id)
+and, if found and not the session initiating the call, resets it with rwinsta.exe.
+A session flagged as the CurrentUser session is never reset - the function emits a
+non-terminating error and moves on rather than tearing down its own session.</p>
+<h2>EXAMPLES</h2>
+<h3>EXAMPLE 1</h3>
+<pre><code>Remove-QuserSession -UserName jdoe
+</code></pre>
+<p>Resets jdoe's session on the local computer.</p>
+<h3>EXAMPLE 2</h3>
+<pre><code>Remove-QuserSession -SessionName 'rdp-tcp#3' -ComputerName SQL01
+</code></pre>
+<p>Resets the session named 'rdp-tcp#3' on SQL01.</p>
+<h3>EXAMPLE 3</h3>
+<pre><code>Remove-QuserSession -Id 2 -ComputerName SQL01 -WhatIf
+</code></pre>
+<p>Shows what would happen if session Id 2 on SQL01 were reset, without doing it.</p>
+<h3>EXAMPLE 4</h3>
+<pre><code>Remove-QuserSession -UserName jdoe -ComputerName SQL01 -Force
+</code></pre>
+<p>Resets jdoe's session on SQL01 without prompting for confirmation.</p>
+<h2>PARAMETERS</h2>
+<h3>-UserName</h3>
+<p>The UserName to match against Get-QuserSession output.
+Default parameter set.</p>
+<pre><code class="language-yaml">Type: String
+Parameter Sets: UserName
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>-SessionName</h3>
+<p>The SessionName to match against Get-QuserSession output.</p>
+<pre><code class="language-yaml">Type: String
+Parameter Sets: SessionName
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>-Id</h3>
+<p>The session Id to match against Get-QuserSession output.</p>
+<pre><code class="language-yaml">Type: Int32
+Parameter Sets: Id
+Aliases:
+
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>-ComputerName</h3>
+<p>The remote computer to operate against.
+Passed to both Get-QuserSession and as
+'/server:&lt;ComputerName&gt;' to rwinsta.exe.
+If omitted, the local computer is used.</p>
+<pre><code class="language-yaml">Type: String
+Parameter Sets: (All)
+Aliases: CN, Server
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>-Force</h3>
+<p>Suppresses the ShouldProcess confirmation prompt that ConfirmImpact = 'High' would
+otherwise trigger.
+-WhatIf still short-circuits the action even with -Force.</p>
+<pre><code class="language-yaml">Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>-WhatIf</h3>
+<p>Shows what would happen if the cmdlet runs.
+The cmdlet is not run.</p>
+<pre><code class="language-yaml">Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>-Confirm</h3>
+<p>Prompts you for confirmation before running the cmdlet.</p>
+<pre><code class="language-yaml">Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+</code></pre>
+<h3>CommonParameters</h3>
+<p>This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see <a href="http://go.microsoft.com/fwlink/?LinkID=113216">about_CommonParameters</a>.</p>
+<h2>INPUTS</h2>
+<h2>OUTPUTS</h2>
+<h2>NOTES</h2>
+<h2>RELATED LINKS</h2>
+
+</body>
+</html>

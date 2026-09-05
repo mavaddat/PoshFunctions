@@ -1,7 +1,7 @@
----
+﻿---
 external help file: PoshFunctions-help.xml
 Module Name: PoshFunctions
-online version:
+online version: https://en.wikipedia.org/wiki/Security_Identifier
 schema: 2.0.0
 ---
 

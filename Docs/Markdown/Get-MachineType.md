@@ -1,4 +1,4 @@
----
+﻿---
 external help file: PoshFunctions-help.xml
 Module Name: PoshFunctions
 online version: https://gallery.technet.microsoft.com/scriptcenter/Get-MachineType-VM-or-ff43f3a9

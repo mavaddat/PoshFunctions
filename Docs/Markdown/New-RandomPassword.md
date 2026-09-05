@@ -1,4 +1,4 @@
----
+﻿---
 external help file: PoshFunctions-help.xml
 Module Name: PoshFunctions
 online version: http://code.google.com/apis/chart/infographics/docs/qr_codes.html
@@ -15,19 +15,19 @@ Creates a new random password
 ### ReadableTitleCase (Default)
 ```
 New-RandomPassword [-MinLength <Int32>] [-MaxLength <Int32>] [-Readable] [-AvoidSimilar] [-TitleCase]
- [-FullWordList] [-NumeralCount <Int32>] [-SymbolCount <Int32>] [<CommonParameters>]
+ [-FullWordList] [-NumeralCount <Int32>] [-SymbolCount <Int32>] [-Clipboard] [<CommonParameters>]
 ```
 
 ### ReadableRandomCase
 ```
 New-RandomPassword [-MinLength <Int32>] [-MaxLength <Int32>] [-Readable] [-AvoidSimilar] [-RandomCase]
- [-FullWordList] [-NumeralCount <Int32>] [-SymbolCount <Int32>] [<CommonParameters>]
+ [-FullWordList] [-NumeralCount <Int32>] [-SymbolCount <Int32>] [-Clipboard] [<CommonParameters>]
 ```
 
 ### Web
 ```
 New-RandomPassword [-MinLength <Int32>] [-MaxLength <Int32>] [-NonAlphaChars <Int32>] [-AvoidSimilar] [-Web]
- [<CommonParameters>]
+ [-Clipboard] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -104,8 +104,9 @@ Accept wildcard characters: False
 ```
 
 ### -NonAlphaChars
-Integer representing the number of non alphabetic characters.
-ParameterSetName: Web
+Integer representing the minimum number of non alphabetic characters.
+ParameterSetName: Web.
+Range 2-10, default 2.
 
 ```yaml
 Type: Int32
@@ -114,7 +115,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: 0
+Default value: 2
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -219,7 +220,7 @@ Accept wildcard characters: False
 
 ### -NumeralCount
 Integer representing the number of digits.
-Valid range 1-2, default is 1
+Valid range 1-3, default is 1
 
 ```yaml
 Type: Int32
@@ -235,7 +236,7 @@ Accept wildcard characters: False
 
 ### -SymbolCount
 Integer representing the number of symbol characters.
-Valid range 1-2, default is 1
+Valid range 1-3, default is 1
 
 ```yaml
 Type: Int32
@@ -245,6 +246,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: 1
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Clipboard
+Switch to control copying the password to the clipboard
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -268,5 +284,7 @@ Updated help comments
 DefaultParameterSetName is 'ReadableTitleCase'
 Added 'Q' to similar regex given closeness to 'O'
 Added NumeralCount and SymbolCount to increase complexity
+
+Added Clipboard to copy the password to the clipboard
 
 ## RELATED LINKS

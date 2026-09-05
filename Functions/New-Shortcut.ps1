@@ -29,6 +29,7 @@ function New-Shortcut {
     * Updated -WindowStyle to accept readable content of 'Normal', 'Maximized', 'Minimized' and write correct integer values to shortcut
     * Updated -IconLocation renamed from -Icon to match the output of Get-Shortcut
     * Updated -RunAsAdmin renamed from -Admin and altered code to make more consistent
+    * Updated - Added login that if -RunAsAdmin is specified to check if running as Administrator. If not throw an error.
 
     Main logic inspired by:
     https://gallery.technet.microsoft.com/scriptcenter/New-Shortcut-4d6fb3d8
@@ -126,6 +127,10 @@ function New-Shortcut {
 
     begin {
         Write-Verbose -Message "Starting [$($MyInvocation.Mycommand)]"
+        if ($RunAsAdmin -and -not (Test-IsAdmin)) {
+            Write-Error 'If you specify -RunAsAdmin you must run from an elevated prompt.'
+            return
+        }
     }
 
     process {

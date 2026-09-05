@@ -1,4 +1,4 @@
----
+﻿---
 external help file: PoshFunctions-help.xml
 Module Name: PoshFunctions
 online version: https://www.Google.com

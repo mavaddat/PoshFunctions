@@ -1,4 +1,4 @@
----
+﻿---
 external help file: PoshFunctions-help.xml
 Module Name: PoshFunctions
 online version:
@@ -8,7 +8,7 @@ schema: 2.0.0
 # Format-TitleCase
 
 ## SYNOPSIS
-Get the last day of the month given the year as an integer, and the month as an integer
+Takes a string like 'happy birthday' and changes it to 'Happy Birthday'
 
 ## SYNTAX
 
@@ -17,7 +17,8 @@ Format-TitleCase [-String] <String[]> [-ToLowerFirst] [-IncludeInput] [<CommonPa
 ```
 
 ## DESCRIPTION
-Get the last day of the month given the year as an integer, and the month as an integer
+Takes a string like 'happy birthday' and changes it to 'Happy Birthday'.
+Can optionally convert all to lower case first.
 
 ## EXAMPLES
 
